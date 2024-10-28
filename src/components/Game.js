@@ -73,10 +73,10 @@ const Game = () => {
         <br></br>
         <HeaderPanel>
           <Score score={score} />
-          {/* <ButtonPanel
+          <ButtonPanel
             jokers={jokerState}
             dispatchJokerAction={dispatchJokerAction}
-          /> */}
+          />
           <PeraWalletButton />
         </HeaderPanel>
         {score < winningScore ? (
