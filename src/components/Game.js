@@ -28,7 +28,7 @@ const Game = () => {
   const [jokerState, dispatchJokerAction] = useReducer(
     handleState,
     JSON.parse(localStorage.getItem("jokerState")) || initialState
-);
+  );
   const [gameOver, setGameOver] = useGameOver(board, jokerState);
   const [connectedAccountAddress, setConnectedAccountAddress] = useState(null);
   const [disable, setDisable] = useState(false);
@@ -41,6 +41,7 @@ const Game = () => {
 
   const handleTX = async () => {
     if (connectedAccountAddress?.length > 0) {
+      setDisable(true);
       try {
         let optInTxn = await optIn(connectedAccountAddress, "2176744157");
 
@@ -52,7 +53,6 @@ const Game = () => {
 
           console.log(`txns signed successfully! - txID: ${txId}`);
         }
-        console.log(score)
         const response = await axios.post(`${API_BASE_URL}/send-rewards`, {
           to: connectedAccountAddress,
           score,
@@ -91,22 +91,19 @@ const Game = () => {
         ) : (
           <>
             <div className={RestartGameStyles.restartGameWrapper}>
-              {(
+              {
                 <button
                   className={RestartGameStyles.restartGame}
                   disabled={disable}
                   onClick={() => {
-                    setTimeout(()=>{
-                      if (score >= winningScore) {
-                        setDisable(true);
-                        handleTX();
-                      }
-                    },3000)
+                    if (score >= winningScore) {
+                      handleTX();
+                    }
                   }}
                 >
                   Claim Reward
                 </button>
-              )}
+              }
             </div>
             <RestartGame
               resetBoard={setBoard}

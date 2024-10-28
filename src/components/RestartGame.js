@@ -8,7 +8,8 @@ const RestartGame = ({ resetBoard, resetScore, resetJokers, resetGameOver }) => 
         resetBoard(generateBoard())
         resetScore(0)
         resetJokers({ type: "RESET" })
-        resetGameOver(false)
+        resetGameOver(false);
+        window.location.reload();
     }
 
     return (
