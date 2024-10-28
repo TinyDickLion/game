@@ -35,7 +35,7 @@ const Game = () => {
   useEffect(() => {
     setConnectedAccountAddress(peraWallet?.connector?.accounts[0]);
   }, [peraWallet]);
-  const winningScore = 10;
+  const winningScore = 100;
   const API_BASE_URL = "http://localhost:5000/api/v1";
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const Game = () => {
     <>
       <GameWrapper gameState={gameOver}>
         {score < winningScore ? (
-          <h1 style={{ color: "white" }}>Score 1000 points to Win</h1>
+          <h1 style={{ color: "white" }}>Score 100 points to Win</h1>
         ) : (
           <h1 style={{ color: "white" }}>You Win!</h1>
         )}
