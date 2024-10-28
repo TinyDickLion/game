@@ -36,7 +36,7 @@ const Game = () => {
     setConnectedAccountAddress(peraWallet?.connector?.accounts[0]);
   }, [peraWallet]);
   const winningScore = 100;
-  const API_BASE_URL = "http://localhost:5000/api/v1";
+  const API_BASE_URL = "https://tdld-api.onrender.com/api/v1";
 
   useEffect(() => {
     if (score >= winningScore) {
