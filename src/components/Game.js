@@ -31,6 +31,7 @@ const Game = () => {
   );
   const [gameOver, setGameOver] = useGameOver(board, jokerState);
   const [connectedAccountAddress, setConnectedAccountAddress] = useState(null);
+  const [disable, setDisable] = useState(false);
   const peraWallet = useContext(PeraWalletContext);
   useEffect(() => {
     setConnectedAccountAddress(peraWallet?.connector?.accounts[0]);
@@ -38,11 +39,6 @@ const Game = () => {
   const winningScore = 100;
   const API_BASE_URL = "https://tdld-api.onrender.com/api/v1";
 
-  useEffect(() => {
-    if (score >= winningScore) {
-      handleTX();
-    }
-  }, [score]);
   const handleTX = async () => {
     if (connectedAccountAddress?.length > 0) {
       try {
@@ -77,10 +73,10 @@ const Game = () => {
         <br></br>
         <HeaderPanel>
           <Score score={score} />
-          <ButtonPanel
+          {/* <ButtonPanel
             jokers={jokerState}
             dispatchJokerAction={dispatchJokerAction}
-          />
+          /> */}
           <PeraWalletButton />
         </HeaderPanel>
         {score < winningScore ? (
@@ -92,12 +88,32 @@ const Game = () => {
             gameOver={gameOver}
           />
         ) : (
-          <RestartGame
-            resetBoard={setBoard}
-            resetScore={setScore}
-            resetJokers={dispatchJokerAction}
-            resetGameOver={setGameOver}
-          />
+          <>
+            <div className={RestartGameStyles.restartGameWrapper}>
+              {connectedAccountAddress?.length > 0 ? (
+                <button
+                  className={RestartGameStyles.restartGame}
+                  disabled={disable}
+                  onClick={() => {
+                    if (score >= winningScore) {
+                      setDisable(true)
+                      handleTX();
+                    }
+                  }}
+                >
+                  Claim Reward
+                </button>
+              ) : (
+                <></>
+              )}
+            </div>
+            <RestartGame
+              resetBoard={setBoard}
+              resetScore={setScore}
+              resetJokers={dispatchJokerAction}
+              resetGameOver={setGameOver}
+            />
+          </>
         )}
       </GameWrapper>
     </>
