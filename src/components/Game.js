@@ -90,7 +90,7 @@ const Game = () => {
         ) : (
           <>
             <div className={RestartGameStyles.restartGameWrapper}>
-              {connectedAccountAddress?.length > 0 ? (
+              {connectedAccountAddress ? (
                 <button
                   className={RestartGameStyles.restartGame}
                   disabled={disable}
