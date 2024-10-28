@@ -10,7 +10,7 @@ const NavBar = () => {
           <Link to="/">Home</Link>
         </li>
         <li className={NavBarStyles.navItem}>
-          <Link to="/jewel-rush">Jewel Rush</Link>
+          <Link to="/Crystal-Swap">Crystal Swap</Link>
         </li>
       </ul>
     </nav>

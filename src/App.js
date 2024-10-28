@@ -11,7 +11,7 @@ const App = () => (
     <Routes>
       <Route path="/" element={<HomePage/>} />
       <Route
-        path="/jewel-rush"
+        path="/Crystal-Swap"
         element={
           <PeraWalletProvider>
             <Game />
