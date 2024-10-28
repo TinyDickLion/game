@@ -20,7 +20,7 @@ export const handleState = (state, action) => {
                 knight: { ...state.knight, status: "" },
                 queen: { ...state.queen, status: "" }
             }
-            localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
+            // localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
             return updatedJokerState
         }
 
@@ -32,7 +32,7 @@ export const handleState = (state, action) => {
                 knight: { ...state.knight, status: "" },
                 queen: { ...state.queen, status: "" }
             }
-            localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
+            // localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
             return updatedJokerState
         }
 
@@ -44,7 +44,7 @@ export const handleState = (state, action) => {
                 bishop: { ...state.bishop, status: "" },
                 queen: { ...state.queen, status: "" }
             }
-            localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
+            // localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
             return updatedJokerState
         }
         case "QUEEN_SELECTED": {
@@ -55,7 +55,7 @@ export const handleState = (state, action) => {
                 bishop: { ...state.bishop, status: "" },
                 knight: { ...state.knight, status: "" }
             }
-            localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
+            // localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
             return updatedJokerState
         }
         case "ROOK_UTILIZED": {
@@ -63,7 +63,7 @@ export const handleState = (state, action) => {
                 ...state,
                 rook: { status: "", disabled: true }
             }
-            localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
+            // localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
             return updatedJokerState
         }
         case "BISHOP_UTILIZED": {
@@ -71,7 +71,7 @@ export const handleState = (state, action) => {
                 ...state,
                 bishop: { status: "", disabled: true }
             }
-            localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
+            // localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
             return updatedJokerState
         }
         case "KNIGHT_UTILIZED": {
@@ -79,7 +79,7 @@ export const handleState = (state, action) => {
                 ...state,
                 knight: { status: "", disabled: true }
             }
-            localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
+            // localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
             return updatedJokerState
         }
         case "QUEEN_UTILIZED": {
@@ -87,7 +87,7 @@ export const handleState = (state, action) => {
                 ...state,
                 queen: { status: "", disabled: true }
             }
-            localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
+            // localStorage.setItem("jokerState", JSON.stringify(updatedJokerState))
             return updatedJokerState
         }
 
