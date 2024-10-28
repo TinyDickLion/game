@@ -1,0 +1,74 @@
+.navBar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #333;
+    padding: 2rem 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100px;
+    z-index: 100;
+    transition: width 0.3s;
+  }
+  
+  .navList {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .navItem {
+    font-family: "JetBrains Mono", monospace;
+    width: 100%;
+  }
+  
+  .navItem a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    width: 100%;
+    display: block;
+    text-align: center;
+    transition: background 0.3s, color 0.3s;
+    border-radius: 8px;
+  }
+  
+  .navItem a:hover {
+    background: rgb(84, 0, 139);
+    color: rgb(226, 182, 255);
+  }
+  
+  .activeLink {
+    background: rgb(84, 0, 139);
+    color: rgb(226, 182, 255);
+  }
+  
+  /* Media Query for Mobile Views */
+  @media (max-width: 768px) {
+    .navBar {
+      flex-direction: row;
+      height: 60px;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      justify-content: center;
+    }
+  
+    .navList {
+      flex-direction: row;
+      gap: 1rem;
+    }
+  
+    .navItem a {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+  }
+  

@@ -65,6 +65,7 @@ const Game = () => {
   };
   return (
     <>
+    <br></br>
       <GameWrapper gameState={gameOver}>
         {score < winningScore ? (
           <h1 style={{ color: "white" }}>Score 100 points to Win</h1>
