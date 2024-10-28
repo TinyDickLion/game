@@ -27,7 +27,7 @@ const Game = () => {
   const [board, setBoard, score, setScore] = useGame();
   const [jokerState, dispatchJokerAction] = useReducer(
     handleState,
-    JSON.parse(localStorage.getItem("jokerState")) || initialState
+    JSON.parse(initialState)
   );
   const [gameOver, setGameOver] = useGameOver(board, jokerState);
   const [connectedAccountAddress, setConnectedAccountAddress] = useState(null);
@@ -90,7 +90,7 @@ const Game = () => {
         ) : (
           <>
             <div className={RestartGameStyles.restartGameWrapper}>
-              {(
+              {
                 <button
                   className={RestartGameStyles.restartGame}
                   disabled={disable}
@@ -103,7 +103,7 @@ const Game = () => {
                 >
                   Claim Reward
                 </button>
-              )}
+              }
             </div>
             <RestartGame
               resetBoard={setBoard}
