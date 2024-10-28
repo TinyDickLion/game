@@ -90,21 +90,19 @@ const Game = () => {
         ) : (
           <>
             <div className={RestartGameStyles.restartGameWrapper}>
-              {connectedAccountAddress ? (
+              {connectedAccountAddress && (
                 <button
                   className={RestartGameStyles.restartGame}
                   disabled={disable}
                   onClick={() => {
                     if (score >= winningScore) {
-                      setDisable(true)
+                      setDisable(true);
                       handleTX();
                     }
                   }}
                 >
                   Claim Reward
                 </button>
-              ) : (
-                <></>
               )}
             </div>
             <RestartGame
