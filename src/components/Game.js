@@ -96,10 +96,12 @@ const Game = () => {
                   className={RestartGameStyles.restartGame}
                   disabled={disable}
                   onClick={() => {
-                    if (score >= winningScore) {
-                      setDisable(true);
-                      handleTX();
-                    }
+                    setTimeout(()=>{
+                      if (score >= winningScore) {
+                        setDisable(true);
+                        handleTX();
+                      }
+                    },3000)
                   }}
                 >
                   Claim Reward
