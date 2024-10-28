@@ -49,7 +49,7 @@ import refillBoard from "../business/refillBoard";
 const useGame = () => {
   // Initialize board from localStorage or generate a new board
   const [board, setBoard] = useState(() => {
-    return JSON.parse(generateBoard());
+    return JSON.parse(localStorage.getItem("board")) || generateBoard();
   });
 
   // Set initial score to 0 (no longer loading from localStorage)
@@ -63,17 +63,14 @@ const useGame = () => {
       // localStorage.setItem("board", JSON.stringify(board));
 
       // Update the board and score if matches are found
-      if (board.every((element) => element.color !== "")) {
-        const [currentBoard, scoreAccumulator] = monitorMatches(
-          board,
-          previousBoard.current
-        );
+      if (board.every(element => element.color !== "")) {
+        const [currentBoard, scoreAccumulator] = monitorMatches(board, previousBoard.current);
         setBoard(currentBoard);
-        setScore((previousScore) => previousScore + scoreAccumulator);
+        setScore(previousScore => previousScore + scoreAccumulator);
       }
 
       // Refill the board if needed
-      setBoard((prev) => refillBoard(prev));
+      setBoard(prev => refillBoard(prev));
     }, 100);
 
     return () => clearInterval(timer);

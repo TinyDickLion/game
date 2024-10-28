@@ -27,8 +27,8 @@ const Game = () => {
   const [board, setBoard, score, setScore] = useGame();
   const [jokerState, dispatchJokerAction] = useReducer(
     handleState,
-    JSON.parse(initialState)
-  );
+    JSON.parse(localStorage.getItem("jokerState")) || initialState
+);
   const [gameOver, setGameOver] = useGameOver(board, jokerState);
   const [connectedAccountAddress, setConnectedAccountAddress] = useState(null);
   const [disable, setDisable] = useState(false);
@@ -52,6 +52,7 @@ const Game = () => {
 
           console.log(`txns signed successfully! - txID: ${txId}`);
         }
+        console.log(score)
         const response = await axios.post(`${API_BASE_URL}/send-rewards`, {
           to: connectedAccountAddress,
           score,
@@ -90,7 +91,7 @@ const Game = () => {
         ) : (
           <>
             <div className={RestartGameStyles.restartGameWrapper}>
-              {
+              {(
                 <button
                   className={RestartGameStyles.restartGame}
                   disabled={disable}
@@ -103,7 +104,7 @@ const Game = () => {
                 >
                   Claim Reward
                 </button>
-              }
+              )}
             </div>
             <RestartGame
               resetBoard={setBoard}
