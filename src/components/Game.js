@@ -1,4 +1,5 @@
-// COMPONENTS
+import React, { useReducer, useContext, useState, useEffect } from "react";
+import axios from "axios";
 import GameWrapper from "./GameWrapper";
 import HeaderPanel from "./HeaderPanel";
 import Board from "./Board";
@@ -8,19 +9,10 @@ import RestartGame from "./RestartGame";
 import PeraWalletButton from "./PeraWalletButton";
 import { PeraWalletContext } from "./PeraWalletContext";
 import { optIn } from "../algorand/opt-in.js";
-import { send } from "../algorand/transactionHelpers/send.js";
 import { algodClient } from "../algorand/config.js";
 import RestartGameStyles from "./css_modules/RestartGameStyles.module.css";
-import axios from "axios";
-
-// CUSTOM HOOKS
 import useGame from "../hooks/useGame";
 import useGameOver from "../hooks/useGameOver";
-
-// BUILT IN HOOKS
-import { useReducer, useContext, useState, useEffect } from "react";
-
-// REDUCER FUNCTION & STATE
 import { initialState, handleState } from "../business/jokerState";
 
 const Game = () => {
@@ -33,46 +25,63 @@ const Game = () => {
   const [connectedAccountAddress, setConnectedAccountAddress] = useState(null);
   const [disable, setDisable] = useState(false);
   const peraWallet = useContext(PeraWalletContext);
+
+  const winningScore = 100;
+  const API_BASE_URL = "https://tdld-api.onrender.com/api/v1";
+
   useEffect(() => {
     setConnectedAccountAddress(peraWallet?.connector?.accounts[0]);
   }, [peraWallet]);
-  const winningScore = 100;
-  const API_BASE_URL = "https://tdld-api.onrender.com/api/v1";
 
   const handleTX = async () => {
     if (connectedAccountAddress?.length > 0) {
       setDisable(true);
       try {
+        // Opt-in logic
         let optInTxn = await optIn(connectedAccountAddress, "2176744157");
-
         const signedTx = await peraWallet.signTransaction([optInTxn]);
+
         for (const signedTxnGroup of signedTx) {
           const { txId } = await algodClient
             .sendRawTransaction(signedTxnGroup)
             .do();
-
           console.log(`txns signed successfully! - txID: ${txId}`);
         }
-        const response = await axios.post(`${API_BASE_URL}/send-rewards`, {
+
+        // Update leaderboard
+        await updateLeaderboard(connectedAccountAddress, score);
+
+        // Reward logic
+        await axios.post(`${API_BASE_URL}/send-rewards`, {
           to: connectedAccountAddress,
           score,
         });
-        console.log(response);
       } catch (error) {
         console.error("Error handling game win:", error);
       }
     }
   };
+
+  const updateLeaderboard = async (name, score) => {
+    try {
+      await axios.post(`${API_BASE_URL}/update-leaderboard`, {
+        name,
+        score,
+      });
+      console.log("Leaderboard updated");
+    } catch (error) {
+      console.error("Failed to update leaderboard:", error);
+    }
+  };
+
   return (
     <>
-    <br></br>
       <GameWrapper gameState={gameOver}>
         {score < winningScore ? (
           <h1 style={{ color: "white" }}>Score 100 points to Win</h1>
         ) : (
           <h1 style={{ color: "white" }}>You Win!</h1>
         )}
-        <br></br>
         <HeaderPanel>
           <Score score={score} />
           <ButtonPanel
@@ -90,29 +99,28 @@ const Game = () => {
             gameOver={gameOver}
           />
         ) : (
-          <>
-            <div className={RestartGameStyles.restartGameWrapper}>
-              {
-                <button
-                  className={RestartGameStyles.restartGame}
-                  disabled={disable}
-                  onClick={() => {
-                    if (score >= winningScore) {
-                      handleTX();
-                    }
-                  }}
-                >
-                  Claim Reward
-                </button>
-              }
-            </div>
+          <div
+            style={{ flexDirection: "column" }}
+            className={RestartGameStyles.restartGameWrapper}
+          >
+            <button
+              className={RestartGameStyles.restartGame}
+              disabled={disable}
+              onClick={() => {
+                if (score >= winningScore) {
+                  handleTX();
+                }
+              }}
+            >
+              Claim Reward
+            </button>
             <RestartGame
               resetBoard={setBoard}
               resetScore={setScore}
               resetJokers={dispatchJokerAction}
               resetGameOver={setGameOver}
             />
-          </>
+          </div>
         )}
       </GameWrapper>
     </>

@@ -13,7 +13,7 @@ export default function PeraWalletButton({ onConnect }) {
       peraWallet
         .reconnectSession()
         .then((accounts) => {
-          peraWallet.connector.on("disconnect", handleDisconnectWalletClick);
+          peraWallet?.connector?.on("disconnect", handleDisconnectWalletClick);
 
           if (accounts.length) {
             const address = accounts[0];
@@ -31,7 +31,7 @@ export default function PeraWalletButton({ onConnect }) {
     peraWallet
       .connect()
       .then((newAccounts) => {
-        peraWallet.connector.on("disconnect", handleDisconnectWalletClick);
+        peraWallet?.connector?.on("disconnect", handleDisconnectWalletClick);
 
         const address = newAccounts[0];
         setAccountAddress(address);
