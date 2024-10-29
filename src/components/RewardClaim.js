@@ -58,7 +58,7 @@ const RewardClaim = ({ score, resetGame }) => {
 
       if (optedIn) {
         setFeedbackMessage(
-          "Opt-in successful! Please re-enter your address to claim your reward."
+          "Opt-in successful! Please enter your address to claim your reward."
         );
         setCurrentStep(2);
       } else {
@@ -174,7 +174,7 @@ const RewardClaim = ({ score, resetGame }) => {
           <h2 className={RestartGameStyles.stepTitle}>Claim Your Reward</h2>
           <input
             type="text"
-            placeholder="Re-enter your wallet address"
+            placeholder="Enter your wallet address"
             value={walletAddress}
             onChange={handleInputChange}
             className={RestartGameStyles.walletInput}
