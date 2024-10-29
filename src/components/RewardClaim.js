@@ -16,10 +16,26 @@ const RewardClaim = ({ score, resetGame }) => {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   useEffect(() => {
-    if (walletAddress) {
-      //   localStorage.setItem("walletAddress", walletAddress);
-    }
-  }, [walletAddress]);
+    // Detect when user returns to the app
+    const handleVisibilityChange = () => {
+      if (
+        document.visibilityState === "visible" &&
+        localStorage.getItem("waitingForOptIn")
+      ) {
+        // User returned from Pera Wallet
+        localStorage.removeItem("waitingForOptIn");
+        setFeedbackMessage(
+          "Welcome back! Please re-enter your wallet address to claim your reward."
+        );
+        setCurrentStep(2);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (score >= 100 && walletAddress) {
@@ -47,7 +63,7 @@ const RewardClaim = ({ score, resetGame }) => {
         setCurrentStep(2);
       } else {
         setFeedbackMessage(
-          "You need to opt-in to the TDLD token to proceed. Once complete, please re-enter your wallet address for step 2."
+          "You need to opt-in to the TDLD token. Then re-enter your address, to get to the claim process"
         );
         if (isMobile && walletAddress.length > 0) {
           handleMobileRedirect();
@@ -62,11 +78,11 @@ const RewardClaim = ({ score, resetGame }) => {
   // Handle mobile redirect for opt-in
   const handleMobileRedirect = () => {
     const paymentUrl = `perawallet://?amount=0&asset=${ASSET_ID}`;
+    localStorage.setItem("waitingForOptIn", true); // Set flag indicating the redirect
     window.location.href = paymentUrl;
 
     // Clear the wallet address after redirect
     setWalletAddress("");
-    // localStorage.removeItem("walletAddress");
   };
 
   // Handle reward claim process
@@ -122,9 +138,9 @@ const RewardClaim = ({ score, resetGame }) => {
   return (
     <div className={RestartGameStyles.rewardClaimWrapper}>
       <br></br>
-      {/* <div className={RestartGameStyles.feedbackMessage}>
+      <div className={RestartGameStyles.feedbackMessage}>
         {feedbackMessage && <p>{feedbackMessage}</p>}
-      </div> */}
+      </div>
 
       {/* Step 1: Opt-in process */}
       {currentStep === 1 && (

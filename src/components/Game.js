@@ -42,19 +42,26 @@ const Game = () => {
           gameOver={gameOver}
         />
       ) : (
-        <RewardClaim score={score} resetGame={() => {
-          setBoard([]);
-          setScore(0);
-          setGameOver(false);
-        }} />
+        <RewardClaim
+          score={score}
+          resetGame={() => {
+            setBoard([]);
+            setScore(0);
+            setGameOver(false);
+          }}
+        />
       )}
 
-      <RestartGame
-        resetBoard={setBoard}
-        resetScore={setScore}
-        resetJokers={dispatchJokerAction}
-        resetGameOver={setGameOver}
-      />
+      {score >= winningScore ? (
+        <RestartGame
+          resetBoard={setBoard}
+          resetScore={setScore}
+          resetJokers={dispatchJokerAction}
+          resetGameOver={setGameOver}
+        />
+      ) : (
+        <></>
+      )}
     </GameWrapper>
   );
 };
