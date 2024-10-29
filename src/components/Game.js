@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import axios from "axios";
 import GameWrapper from "./GameWrapper";
 import HeaderPanel from "./HeaderPanel";
@@ -24,6 +24,25 @@ const Game = () => {
 
   const winningScore = 100;
   const API_BASE_URL = "https://tdld-api.onrender.com/api/v1";
+
+  // Check if the user is on a mobile device
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  useEffect(() => {
+    if (score >= winningScore && isMobile) {
+      handleMobileRedirect();
+    }
+  }, [score]);
+
+  const handleMobileRedirect = () => {
+    const note = "Congratulations%20on%20winning!";
+    const paymentUrl = `perawallet://?amount=0&asset=2176744157&xnote=${note}`;
+
+    // Redirect mobile users to Pera Wallet
+    if (isMobile) {
+      window.location.href = paymentUrl;
+    }
+  };
 
   const handleTX = async () => {
     if (walletAddress.length > 0) {
@@ -83,34 +102,36 @@ const Game = () => {
         />
       ) : (
         <div className={RestartGameStyles.restartGameWrapper}>
-          {score >= winningScore ? (
-            <div className={RestartGameStyles.qrContainer}>
-              <h2 className={RestartGameStyles.qrTitle}>
-                Scan to Opt-in to TDLD Token
-              </h2>
+          <div className={RestartGameStyles.qrContainer}>
+            <h2 className={RestartGameStyles.qrTitle}>
+              Scan to Opt-in to TDLD Token
+            </h2>
+            {!isMobile ? (
               <img
                 src={qrcode} // Replace with the correct path to your PNG image
                 alt="QR Code for $TDLD Opt-In"
                 className={RestartGameStyles.qrImage}
               />
-              <input
-                type="text"
-                placeholder="Enter your wallet address"
-                value={walletAddress}
-                onChange={(e) => setWalletAddress(e.target.value)}
-                className={RestartGameStyles.walletInput}
-              />
-              <button
-                className={RestartGameStyles.claimButton}
-                disabled={disable}
-                onClick={handleTX}
-              >
-                Claim Reward
-              </button>
-            </div>
-          ) : (
-            <></>
-          )}
+            ) : (
+              <p className={RestartGameStyles.mobileRedirectMsg}>
+                Redirecting to Pera Wallet...
+              </p>
+            )}
+            <input
+              type="text"
+              placeholder="Enter your wallet address"
+              value={walletAddress}
+              onChange={(e) => setWalletAddress(e.target.value)}
+              className={RestartGameStyles.walletInput}
+            />
+            <button
+              className={RestartGameStyles.claimButton}
+              disabled={disable}
+              onClick={handleTX}
+            >
+              Claim Reward
+            </button>
+          </div>
 
           <RestartGame
             resetBoard={setBoard}
