@@ -5,9 +5,7 @@ import { algoIndexerClient } from "../algorand/config";
 import RestartGameStyles from "./css_modules/RestartGameStyles.module.css";
 
 const RewardClaim = ({ score, resetGame }) => {
-  const [walletAddress, setWalletAddress] = useState(
-    localStorage.getItem("walletAddress") || ""
-  );
+  const [walletAddress, setWalletAddress] = useState("");
   const [hasOptedIn, setHasOptedIn] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [feedbackMessage, setFeedbackMessage] = useState("");
@@ -19,7 +17,7 @@ const RewardClaim = ({ score, resetGame }) => {
 
   useEffect(() => {
     if (walletAddress) {
-      localStorage.setItem("walletAddress", walletAddress);
+      //   localStorage.setItem("walletAddress", walletAddress);
     }
   }, [walletAddress]);
 
@@ -51,7 +49,7 @@ const RewardClaim = ({ score, resetGame }) => {
         setFeedbackMessage(
           "You need to opt-in to the TDLD token to proceed. Once complete, please re-enter your wallet address for step 2."
         );
-        if (isMobile) {
+        if (isMobile && walletAddress.length > 0) {
           handleMobileRedirect();
         }
       }
@@ -68,7 +66,7 @@ const RewardClaim = ({ score, resetGame }) => {
 
     // Clear the wallet address after redirect
     setWalletAddress("");
-    localStorage.removeItem("walletAddress");
+    // localStorage.removeItem("walletAddress");
   };
 
   // Handle reward claim process
