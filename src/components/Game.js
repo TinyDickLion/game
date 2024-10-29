@@ -11,6 +11,7 @@ import useGame from "../hooks/useGame";
 import useGameOver from "../hooks/useGameOver";
 import { initialState, handleState } from "../business/jokerState";
 import qrcode from "../images/qr.png"; // Import QR code image
+import { algoIndexerClient } from "../algorand/config";
 
 const Game = () => {
   const [board, setBoard, score, setScore] = useGame();
@@ -21,23 +22,44 @@ const Game = () => {
   const [gameOver, setGameOver] = useGameOver(board, jokerState);
   const [disable, setDisable] = useState(false);
   const [walletAddress, setWalletAddress] = useState(""); // Wallet address input
+  const [hasOptedIn, setHasOptedIn] = useState(false); // Check if user has opted in
 
   const winningScore = 100;
   const API_BASE_URL = "https://tdld-api.onrender.com/api/v1";
+  const ASSET_ID = 2176744157; // Replace with your asset ID
 
   // Check if the user is on a mobile device
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   useEffect(() => {
-    if (score >= winningScore && isMobile) {
-      handleMobileRedirect();
+    if (score >= winningScore && walletAddress) {
+      checkOptInStatus();
     }
-  }, [score]);
+  }, [score, walletAddress]);
+
+  // Check if the user has already opted into the asset
+  const checkOptInStatus = async () => {
+    try {
+      const accountInfo = await algoIndexerClient
+        .lookupAccountByID(walletAddress)
+        .do();
+      const optedIn = accountInfo.account.assets?.some(
+        (asset) => asset["asset-id"] === ASSET_ID
+      );
+
+      setHasOptedIn(optedIn);
+      if (!optedIn && isMobile) {
+        handleMobileRedirect();
+      }
+    } catch (error) {
+      console.error("Error checking opt-in status:", error);
+    }
+  };
 
   const handleMobileRedirect = () => {
-    const paymentUrl = `perawallet://?amount=0&asset=2176744157`;
+    const paymentUrl = `perawallet://?amount=0&asset=${ASSET_ID}`;
 
-    // Redirect mobile users to Pera Wallet
+    // Redirect mobile users to Pera Wallet for opt-in
     if (isMobile) {
       window.location.href = paymentUrl;
     }
@@ -103,19 +125,17 @@ const Game = () => {
         <div className={RestartGameStyles.restartGameWrapper}>
           <div className={RestartGameStyles.qrContainer}>
             <h2 className={RestartGameStyles.qrTitle}>
-              Scan to Opt-in to TDLD Token
+              {hasOptedIn
+                ? "Enter your wallet to claim reward"
+                : "Opt-in to TDLD Token"}
             </h2>
-            {!isMobile ? (
+            {!hasOptedIn && !isMobile ? (
               <img
                 src={qrcode} // Replace with the correct path to your PNG image
                 alt="QR Code for $TDLD Opt-In"
                 className={RestartGameStyles.qrImage}
               />
-            ) : (
-              <p className={RestartGameStyles.mobileRedirectMsg}>
-                Redirecting to Pera Wallet...
-              </p>
-            )}
+            ) : null}
             <input
               type="text"
               placeholder="Enter your wallet address"
@@ -123,13 +143,15 @@ const Game = () => {
               onChange={(e) => setWalletAddress(e.target.value)}
               className={RestartGameStyles.walletInput}
             />
-            <button
-              className={RestartGameStyles.claimButton}
-              disabled={disable}
-              onClick={handleTX}
-            >
-              Claim Reward
-            </button>
+            {hasOptedIn && (
+              <button
+                className={RestartGameStyles.claimButton}
+                disabled={disable}
+                onClick={handleTX}
+              >
+                Claim Reward
+              </button>
+            )}
           </div>
 
           <RestartGame
