@@ -196,12 +196,6 @@ const RewardClaim = ({ score, resetGame }) => {
           <p className={RestartGameStyles.instructions}>
             Check your wallet for the reward. Thank you for participating!
           </p>
-          <button
-            className={RestartGameStyles.restartButton}
-            onClick={resetGame}
-          >
-            Play Again
-          </button>
         </div>
       )}
     </div>
