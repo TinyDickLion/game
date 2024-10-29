@@ -133,17 +133,26 @@ const Game = () => {
       ) : (
         <div className={RestartGameStyles.restartGameWrapper}>
           <div className={RestartGameStyles.qrContainer}>
-            <h2 className={RestartGameStyles.qrTitle}>
-              {hasOptedIn
-                ? "Enter your wallet to claim reward"
-                : "Opt-in to TDLD Token"}
+            <h2
+              style={{ padding: "0.125em" }}
+              className={RestartGameStyles.qrTitle}
+            >
+              Enter your wallet to Opt-in to TDLD Token and claim your reward!
             </h2>
             {!hasOptedIn && !isMobile ? (
-              <img
-                src={qrcode} // Replace with the correct path to your PNG image
-                alt="QR Code for $TDLD Opt-In"
-                className={RestartGameStyles.qrImage}
-              />
+              <div>
+                <h3
+                  style={{ color: "red" }}
+                  className={RestartGameStyles.qrTitle}
+                >
+                  Scan to Opt-In
+                </h3>
+                <img
+                  src={qrcode} // Replace with the correct path to your PNG image
+                  alt="QR Code for $TDLD Opt-In"
+                  className={RestartGameStyles.qrImage}
+                />
+              </div>
             ) : null}
             <input
               type="text"
