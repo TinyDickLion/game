@@ -1,0 +1,56 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #4c0a7b, #b548ca);
+    color: white;
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 3rem;
+    font-family: "JetBrains Mono", monospace;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  }
+  
+  .table {
+    width: 80%;
+    max-width: 600px;
+    border-collapse: collapse;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.2rem;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .tableHeader {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .tableHeader th {
+    padding: 1rem;
+    color: #e2b6ff;
+    font-weight: bold;
+  }
+  
+  .tableRow {
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .tableRow td {
+    padding: 0.75rem;
+  }
+  
+  .tableRow:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .tableRow:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  

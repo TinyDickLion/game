@@ -9,7 +9,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 100px;
+    width: 200px;
     z-index: 100;
     transition: width 0.3s;
   }
