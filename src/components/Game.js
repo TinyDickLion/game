@@ -159,6 +159,7 @@ const Game = () => {
               placeholder="Enter your wallet address"
               value={walletAddress}
               onChange={(e) => setWalletAddress(e.target.value)}
+              onPaste={(e) => setWalletAddress(e.target.value)}
               className={RestartGameStyles.walletInput}
             />
             {hasOptedIn && (
