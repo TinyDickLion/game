@@ -35,8 +35,7 @@ const Game = () => {
   }, [score]);
 
   const handleMobileRedirect = () => {
-    const note = "Congratulations%20on%20winning!";
-    const paymentUrl = `perawallet://?amount=0&asset=2176744157&xnote=${note}`;
+    const paymentUrl = `perawallet://?amount=0&asset=2176744157`;
 
     // Redirect mobile users to Pera Wallet
     if (isMobile) {
