@@ -108,12 +108,16 @@ const Game = () => {
               disabled={disable}
               onClick={() => {
                 if (score >= winningScore) {
-                  handleTX();
+                  setTimeout(() => {
+                    handleTX();
+                  }, 3000);
                 }
               }}
               onTouchStart={() => {
                 if (score >= winningScore) {
-                  handleTX();
+                  setTimeout(() => {
+                    handleTX();
+                  }, 3000);
                 }
               }}
             >
