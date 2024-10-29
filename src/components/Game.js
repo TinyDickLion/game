@@ -90,8 +90,6 @@ const Game = () => {
         await updateLeaderboard(walletAddress, score);
       } catch (error) {
         console.error("Error handling game win:", error);
-      } finally {
-        setDisable(false);
       }
     } else {
       alert("Please enter your wallet address.");
