@@ -21,7 +21,9 @@ const Game = () => {
   );
   const [gameOver, setGameOver] = useGameOver(board, jokerState);
   const [disable, setDisable] = useState(false);
-  const [walletAddress, setWalletAddress] = useState(""); // Wallet address input
+  const [walletAddress, setWalletAddress] = useState(
+    localStorage.getItem("walletAddress") || ""
+  ); // Wallet address input with persistence
   const [hasOptedIn, setHasOptedIn] = useState(false); // Check if user has opted in
 
   const winningScore = 100;
@@ -30,6 +32,12 @@ const Game = () => {
 
   // Check if the user is on a mobile device
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  useEffect(() => {
+    if (walletAddress) {
+      localStorage.setItem("walletAddress", walletAddress);
+    }
+  }, [walletAddress]);
 
   useEffect(() => {
     if (score >= winningScore && walletAddress) {
@@ -62,6 +70,9 @@ const Game = () => {
     // Redirect mobile users to Pera Wallet for opt-in
     if (isMobile) {
       window.location.href = paymentUrl;
+      // Clear the wallet address after redirect
+      setWalletAddress("");
+      localStorage.removeItem("walletAddress");
     }
   };
 
