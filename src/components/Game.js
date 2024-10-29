@@ -111,6 +111,11 @@ const Game = () => {
                   handleTX();
                 }
               }}
+              onTouchStart={() => {
+                if (score >= winningScore) {
+                  handleTX();
+                }
+              }}
             >
               Claim Reward
             </button>
