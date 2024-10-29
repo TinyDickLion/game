@@ -8,19 +8,14 @@ import Leaderboard from "./components/Leaderboard";
 
 const App = () => (
   <Router>
-    <NavBar />
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route
-        path="/crystal-swap"
-        element={
-          <PeraWalletProvider>
-            <Game />
-          </PeraWalletProvider>
-        }
-      />
-      <Route path="/leaderboard" element={<Leaderboard />} />
-    </Routes>
+    <PeraWalletProvider>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/crystal-swap" element={<Game />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+      </Routes>
+    </PeraWalletProvider>
   </Router>
 );
 

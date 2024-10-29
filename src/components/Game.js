@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, useState, useEffect } from "react";
+import React, { useReducer, useState } from "react";
 import axios from "axios";
 import GameWrapper from "./GameWrapper";
 import HeaderPanel from "./HeaderPanel";
@@ -6,14 +6,11 @@ import Board from "./Board";
 import ButtonPanel from "./ButtonPanel";
 import Score from "./Score";
 import RestartGame from "./RestartGame";
-import PeraWalletButton from "./PeraWalletButton";
-import { PeraWalletContext } from "./PeraWalletContext";
-import { optIn } from "../algorand/opt-in.js";
-import { algodClient } from "../algorand/config.js";
 import RestartGameStyles from "./css_modules/RestartGameStyles.module.css";
 import useGame from "../hooks/useGame";
 import useGameOver from "../hooks/useGameOver";
 import { initialState, handleState } from "../business/jokerState";
+import qrcode from "../images/qr.png"; // Import QR code image
 
 const Game = () => {
   const [board, setBoard, score, setScore] = useGame();
@@ -22,43 +19,31 @@ const Game = () => {
     JSON.parse(localStorage.getItem("jokerState")) || initialState
   );
   const [gameOver, setGameOver] = useGameOver(board, jokerState);
-  const [connectedAccountAddress, setConnectedAccountAddress] = useState(null);
   const [disable, setDisable] = useState(false);
-  const peraWallet = useContext(PeraWalletContext);
+  const [walletAddress, setWalletAddress] = useState(""); // Wallet address input
 
   const winningScore = 100;
   const API_BASE_URL = "https://tdld-api.onrender.com/api/v1";
 
-  useEffect(() => {
-    setConnectedAccountAddress(peraWallet?.connector?.accounts[0]);
-  }, [peraWallet]);
-
   const handleTX = async () => {
-    if (connectedAccountAddress?.length > 0) {
+    if (walletAddress.length > 0) {
       setDisable(true);
       try {
-        // Opt-in logic
-        let optInTxn = await optIn(connectedAccountAddress, "2176744157");
-        const signedTx = await peraWallet.signTransaction([optInTxn]);
-
-        for (const signedTxnGroup of signedTx) {
-          const { txId } = await algodClient
-            .sendRawTransaction(signedTxnGroup)
-            .do();
-          console.log(`txns signed successfully! - txID: ${txId}`);
-        }
-
-        // Update leaderboard
-        await updateLeaderboard(connectedAccountAddress, score);
-
         // Reward logic
         await axios.post(`${API_BASE_URL}/send-rewards`, {
-          to: connectedAccountAddress,
+          to: walletAddress,
           score,
         });
+
+        // Update leaderboard
+        await updateLeaderboard(walletAddress, score);
       } catch (error) {
         console.error("Error handling game win:", error);
+      } finally {
+        setDisable(false);
       }
+    } else {
+      alert("Please enter your wallet address.");
     }
   };
 
@@ -75,65 +60,67 @@ const Game = () => {
   };
 
   return (
-    <>
-      <GameWrapper gameState={gameOver}>
-        {score < winningScore ? (
-          <h1 style={{ color: "white" }}>Score 100 points to Win</h1>
-        ) : (
-          <h1 style={{ color: "white" }}>You Win!</h1>
-        )}
-        <HeaderPanel>
-          <Score score={score} />
-          <ButtonPanel
-            jokers={jokerState}
-            dispatchJokerAction={dispatchJokerAction}
+    <GameWrapper gameState={gameOver}>
+      {score < winningScore ? (
+        <h1 style={{ color: "white" }}>Score 100 points to Win</h1>
+      ) : (
+        <h1 style={{ color: "white" }}>You Win!</h1>
+      )}
+      <HeaderPanel>
+        <Score score={score} />
+        <ButtonPanel
+          jokers={jokerState}
+          dispatchJokerAction={dispatchJokerAction}
+        />
+      </HeaderPanel>
+      {score < winningScore ? (
+        <Board
+          board={board}
+          setBoard={setBoard}
+          jokers={jokerState}
+          dispatchJokerAction={dispatchJokerAction}
+          gameOver={gameOver}
+        />
+      ) : (
+        <div className={RestartGameStyles.restartGameWrapper}>
+          {score >= winningScore ? (
+            <div className={RestartGameStyles.qrContainer}>
+              <h2 className={RestartGameStyles.qrTitle}>
+                Scan to Opt-in to TDLD Token
+              </h2>
+              <img
+                src={qrcode} // Replace with the correct path to your PNG image
+                alt="QR Code for $TDLD Opt-In"
+                className={RestartGameStyles.qrImage}
+              />
+              <input
+                type="text"
+                placeholder="Enter your wallet address"
+                value={walletAddress}
+                onChange={(e) => setWalletAddress(e.target.value)}
+                className={RestartGameStyles.walletInput}
+              />
+              <button
+                className={RestartGameStyles.claimButton}
+                disabled={disable}
+                onClick={handleTX}
+              >
+                Claim Reward
+              </button>
+            </div>
+          ) : (
+            <></>
+          )}
+
+          <RestartGame
+            resetBoard={setBoard}
+            resetScore={setScore}
+            resetJokers={dispatchJokerAction}
+            resetGameOver={setGameOver}
           />
-          <PeraWalletButton />
-        </HeaderPanel>
-        {score < winningScore ? (
-          <Board
-            board={board}
-            setBoard={setBoard}
-            jokers={jokerState}
-            dispatchJokerAction={dispatchJokerAction}
-            gameOver={gameOver}
-          />
-        ) : (
-          <div
-            style={{ flexDirection: "column" }}
-            className={RestartGameStyles.restartGameWrapper}
-          >
-            <button
-              className={RestartGameStyles.restartGame}
-              disabled={disable}
-              onClick={() => {
-                if (score >= winningScore) {
-                  handleTX();
-                }
-              }}
-              onTouchStart={() => {
-                if (score >= winningScore) {
-                  handleTX();
-                }
-              }}
-              onTouchEnd={() => {
-                if (score >= winningScore) {
-                  handleTX();
-                }
-              }}
-            >
-              Claim Reward
-            </button>
-            <RestartGame
-              resetBoard={setBoard}
-              resetScore={setScore}
-              resetJokers={dispatchJokerAction}
-              resetGameOver={setGameOver}
-            />
-          </div>
-        )}
-      </GameWrapper>
-    </>
+        </div>
+      )}
+    </GameWrapper>
   );
 };
 

@@ -2,7 +2,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 30%;
+    height: 16vh;
     padding: 2%;
     margin: 1%;
     background-color: rgba(60, 60, 60, 0.5);
@@ -13,4 +15,10 @@
 .score {
     font-size: 2em;
     padding: 5% 0%;
+}
+
+@media (max-width: 768px) {
+ .scoreContainer{
+    height: 12vh;
+ }
 }

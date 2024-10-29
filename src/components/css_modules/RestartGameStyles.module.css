@@ -1,5 +1,6 @@
 .restartGameWrapper {
     display: flex;
+    flex-direction: column;
     width: min(500px, 95vw, 95vh - 35%);
     justify-content: center;
     margin-top: 4%;
@@ -44,4 +45,87 @@
 .restartGame:active {
     box-shadow: #D6D6E7 0 3px 7px inset;
     transform: translateY(5%);
+}
+
+.qrContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    max-width: 90%;
+    margin: 1rem auto;
+}
+
+.qrImage {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 2px solid #e2b6ff;
+}
+
+.qrTitle {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.walletInput {
+    width: 80%;
+    max-width: 300px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    margin: 1rem 0;
+    border: 2px solid #e2b6ff;
+    border-radius: 8px;
+    outline: none;
+}
+
+.walletInput:focus {
+    border-color: #a784db;
+}
+
+.claimButton {
+    background: #4c0a7b;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.claimButton:hover {
+    background: #672c9e;
+}
+
+.claimButton:disabled {
+    background: #a784db;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .qrContainer {
+        padding: 0.5rem;
+    }
+
+    .qrImage {
+        width: 150px;
+        height: 150px;
+    }
+
+    .walletInput {
+        width: 90%;
+        font-size: 0.9rem;
+    }
+
+    .claimButton {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
 }

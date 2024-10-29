@@ -62,8 +62,8 @@ export default function PeraWalletButton({ onConnect }) {
       <h2
         style={{
           color: "white",
-          margin: "0.25em",
           display: "flex",
+          flexDirection:"column",
           textAlign: "center",
         }}
       >
