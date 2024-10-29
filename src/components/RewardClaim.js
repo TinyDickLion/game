@@ -146,7 +146,7 @@ const RewardClaim = ({ score, resetGame }) => {
       {currentStep === 1 && (
         <div className={RestartGameStyles.stepContainer}>
           <h2 className={RestartGameStyles.stepTitle}>
-            Enter Wallet Address to start the reward claim process
+            Enter Wallet Address to Opt-in to $TDLD and Claim Your Reward!
           </h2>
           <input
             type="text"
@@ -156,7 +156,7 @@ const RewardClaim = ({ score, resetGame }) => {
             className={RestartGameStyles.walletInput}
           />
           {!hasOptedIn && !isMobile && (
-            <div>
+            <div className={RestartGameStyles.stepContainer}>
               <img
                 src={qrcode}
                 alt="QR Code for $TDLD Opt-In"

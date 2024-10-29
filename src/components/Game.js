@@ -26,21 +26,23 @@ const Game = () => {
       ) : (
         <h1 style={{ color: "white" }}>You Win!</h1>
       )}
-      <HeaderPanel>
-        <Score score={score} />
-        <ButtonPanel
-          jokers={jokerState}
-          dispatchJokerAction={dispatchJokerAction}
-        />
-      </HeaderPanel>
       {score < winningScore ? (
-        <Board
-          board={board}
-          setBoard={setBoard}
-          jokers={jokerState}
-          dispatchJokerAction={dispatchJokerAction}
-          gameOver={gameOver}
-        />
+        <>
+          <HeaderPanel>
+            <Score score={score} />
+            <ButtonPanel
+              jokers={jokerState}
+              dispatchJokerAction={dispatchJokerAction}
+            />
+          </HeaderPanel>
+          <Board
+            board={board}
+            setBoard={setBoard}
+            jokers={jokerState}
+            dispatchJokerAction={dispatchJokerAction}
+            gameOver={gameOver}
+          />
+        </>
       ) : (
         <RewardClaim
           score={score}

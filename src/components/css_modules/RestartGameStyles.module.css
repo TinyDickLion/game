@@ -47,6 +47,13 @@
     transform: translateY(5%);
 }
 
+.stepContainer{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+
 .qrContainer {
     display: flex;
     flex-direction: column;

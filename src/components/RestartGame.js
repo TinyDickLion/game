@@ -15,7 +15,7 @@ const RestartGame = ({ resetBoard, resetScore, resetJokers, resetGameOver }) => 
     return (
         <div className={RestartGameStyles.restartGameWrapper}>
             <button className={RestartGameStyles.restartGame} onClick={newGame}>
-                NEW GAME
+                CLICK HERE FOR NEW GAME
             </button>
         </div>
     )
