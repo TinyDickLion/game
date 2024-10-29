@@ -34,6 +34,14 @@ const Leaderboard = () => {
     fetchLeaderboard();
   }, []);
 
+  // Add line breaks after every 10 characters
+  const formatPlayerName = (name) => {
+    if (name.length > 10) {
+      return name.match(/.{1,10}/g).join("\n"); // Add a break after every 10 characters
+    }
+    return name;
+  };
+
   if (loading) {
     return <div className={LeaderboardStyles.container}>Loading...</div>;
   }
@@ -57,7 +65,9 @@ const Leaderboard = () => {
           {leaderboard.map((player) => (
             <tr key={player.rank} className={LeaderboardStyles.tableRow}>
               <td>{player.rank}</td>
-              <td>{player.name}</td>
+              <td className={LeaderboardStyles.playerName}>
+                {formatPlayerName(player.name)}
+              </td>
               <td>{player.score}</td>
             </tr>
           ))}
