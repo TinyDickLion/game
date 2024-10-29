@@ -1,16 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import LeaderboardStyles from "./css_modules/LeaderboardStyles.module.css";
 
-// Sample leaderboard data
-const leaderboardData = [
-  { rank: 1, name: "Player1", score: 2500 },
-  { rank: 2, name: "Player2", score: 2300 },
-  { rank: 3, name: "Player3", score: 2200 },
-  { rank: 4, name: "Player4", score: 2100 },
-  { rank: 5, name: "Player5", score: 2000 },
-];
-
 const Leaderboard = () => {
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const API_BASE_URL = "https://tdld-api.onrender.com/api/v1";
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/leaderboard`);
+        const data = response.data;
+
+        // Assign ranks based on sorted scores
+        const rankedData = data
+          .sort((a, b) => b.score - a.score)
+          .map((entry, index) => ({
+            ...entry,
+            rank: index + 1,
+          }));
+
+        setLeaderboard(rankedData);
+      } catch (err) {
+        setError("Failed to load leaderboard data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
+
+  if (loading) {
+    return <div className={LeaderboardStyles.container}>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className={LeaderboardStyles.container}>{error}</div>;
+  }
+
   return (
     <div className={LeaderboardStyles.container}>
       <h1 className={LeaderboardStyles.title}>Weekly Leaders (Coming Soon!)</h1>
@@ -23,7 +54,7 @@ const Leaderboard = () => {
           </tr>
         </thead>
         <tbody>
-          {leaderboardData.map((player) => (
+          {leaderboard.map((player) => (
             <tr key={player.rank} className={LeaderboardStyles.tableRow}>
               <td>{player.rank}</td>
               <td>{player.name}</td>
