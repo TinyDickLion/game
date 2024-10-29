@@ -10,8 +10,8 @@ const HomePage = () => {
         Embark on an exciting journey to earn rewards by matching Crystals and reaching high scores. Are you ready?
       </p>
       <div className={HomePageStyles.buttonContainer}>
-        <Link to="/Crystal-Swap" className={HomePageStyles.button}>
-          Start Crystal Swap
+        <Link to="/match-3-mania" className={HomePageStyles.button}>
+          Start
         </Link>
       </div>
     </div>

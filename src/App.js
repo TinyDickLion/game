@@ -12,7 +12,7 @@ const App = () => (
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/crystal-swap" element={<Game />} />
+        <Route path="/match-3-mania" element={<Game />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </PeraWalletProvider>
