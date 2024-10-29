@@ -63,7 +63,7 @@ const RewardClaim = ({ score, resetGame }) => {
         setCurrentStep(2);
       } else {
         setFeedbackMessage(
-          "You need to opt-in to the TDLD token. Then re-enter your address, to get to the claim process"
+          "You need to opt-in to the TDLD token. Then re-enter your address, to continue the claim process"
         );
         if (isMobile && walletAddress.length > 0) {
           handleMobileRedirect();
@@ -141,11 +141,13 @@ const RewardClaim = ({ score, resetGame }) => {
       <div className={RestartGameStyles.feedbackMessage}>
         {feedbackMessage && <p>{feedbackMessage}</p>}
       </div>
-
+      <br></br>
       {/* Step 1: Opt-in process */}
       {currentStep === 1 && (
         <div className={RestartGameStyles.stepContainer}>
-          <h2 className={RestartGameStyles.stepTitle}>Opt-In to TDLD Token</h2>
+          <h2 className={RestartGameStyles.stepTitle}>
+            Enter Wallet Address to start the reward claim process
+          </h2>
           <input
             type="text"
             placeholder="Enter your wallet address"
@@ -177,6 +179,7 @@ const RewardClaim = ({ score, resetGame }) => {
             placeholder="Enter your wallet address"
             value={walletAddress}
             onChange={handleInputChange}
+            onPaste={handleInputChange}
             className={RestartGameStyles.walletInput}
           />
           <button
