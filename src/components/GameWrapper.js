@@ -4,7 +4,7 @@ const GameWrapper = ({ gameState, children }) => {
 
     return (
         <div className={GameWrapperStypes.GameWrapper}>
-            {gameState && <div className={GameWrapperStypes.gameOverMsg}>GAME<br />OVER </div>}
+            {/* {gameState && <div className={GameWrapperStypes.gameOverMsg}>GAME<br />OVER </div>} */}
             {children}
         </div>
     )
