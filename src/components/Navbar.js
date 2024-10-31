@@ -36,7 +36,7 @@ const NavBar = () => {
             Match 3 Mania
           </NavLink>
         </li>
-        <li className={NavBarStyles.navItem}>
+        {/* <li className={NavBarStyles.navItem}>
           <NavLink
             to="/trivia-takedown"
             className={({ isActive }) =>
@@ -45,8 +45,8 @@ const NavBar = () => {
           >
             Trivia Takedown
           </NavLink>
-        </li>
-        {/* <li className={NavBarStyles.navItem}>
+        </li> */}
+        <li className={NavBarStyles.navItem}>
           <NavLink
             to="/leaderboard"
             className={({ isActive }) =>
@@ -55,7 +55,7 @@ const NavBar = () => {
           >
             Leaderboard
           </NavLink>
-        </li> */}
+        </li>
       </ul>
     </nav>
   );
