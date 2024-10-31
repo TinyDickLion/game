@@ -1,88 +1,67 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import qrcode from "../images/qr.png";
-import { algoIndexerClient } from "../algorand/config";
 import RestartGameStyles from "./css_modules/RestartGameStyles.module.css";
+import { algoIndexerClient } from "../algorand/config";
 
 const RewardClaim = ({ score, resetGame }) => {
   const [walletAddress, setWalletAddress] = useState("");
-  const [hasOptedIn, setHasOptedIn] = useState(false);
+  const [eligilbe, setEligilbility] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [feedbackMessage, setFeedbackMessage] = useState("");
-  const [disable, setDisable] = useState(false);
 
   const API_BASE_URL = "https://tdld-api.onrender.com/api/v1";
+  const API_VESTIGE_URL =
+    "https://free-api.vestige.fi/asset/2176744157/price?currency=algo";
   const ASSET_ID = 2176744157;
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-  useEffect(() => {
-    // Detect when user returns to the app
-    const handleVisibilityChange = () => {
-      if (
-        document.visibilityState === "visible" &&
-        localStorage.getItem("waitingForOptIn")
-      ) {
-        // User returned from Pera Wallet
-        localStorage.removeItem("waitingForOptIn");
-        setFeedbackMessage(
-          "Welcome back! Please re-enter your wallet address to claim your reward."
-        );
-        setCurrentStep(2);
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, []);
+  let minTDLDBalance = 1000000; // Minimum $TDLD balance for 25 ALGO
+  let highTDLDBalance = 2000000; // Minimum $TDLD balance for 50 ALGO
 
   useEffect(() => {
     if (score >= 100 && walletAddress) {
-      setCurrentStep(1); // Reset to step 1 when user wins
-      checkOptInStatus();
+      checkMinimumBalance();
     }
   }, [score, walletAddress]);
 
-  // Check if the user has opted into the asset
-  const checkOptInStatus = async () => {
+  // Check the user's $TDLD balance and update required holdings
+  const checkMinimumBalance = async () => {
     try {
+      const response = await axios.get(API_VESTIGE_URL);
+      const tdldPriceInAlgo = response.data.price;
+
+      // Calculate minimum and high balance based on $TDLD price
+      minTDLDBalance = Math.floor(25 / tdldPriceInAlgo);
+      highTDLDBalance = Math.floor(50 / tdldPriceInAlgo);
+
       const accountInfo = await algoIndexerClient
         .lookupAccountByID(walletAddress.toUpperCase())
         .do();
-      const optedIn = accountInfo.account.assets?.some(
+      const tdldAsset = accountInfo?.account?.assets?.find(
         (asset) => asset["asset-id"] === ASSET_ID
       );
+      const heldTDLDAmount = tdldAsset.amount / 1000000;
 
-      setHasOptedIn(optedIn);
-
-      if (optedIn) {
-        setFeedbackMessage(
-          "Opt-in successful! Please enter your address to claim your reward."
-        );
+      if (tdldAsset && heldTDLDAmount >= minTDLDBalance) {
+        setEligilbility(true);
+        if (heldTDLDAmount >= highTDLDBalance) {
+          setFeedbackMessage(
+            `You have over ${highTDLDBalance} $TDLD, qualifying you for double rewards!`
+          );
+        } else {
+          setFeedbackMessage(
+            `You have at least ${minTDLDBalance} $TDLD! You can now claim your reward.`
+          );
+        }
         setCurrentStep(2);
       } else {
+        setEligilbility(false);
         setFeedbackMessage(
-          "You need to opt-in to the TDLD token. Then re-enter your address, to continue the claim process"
+          `You need at least ${minTDLDBalance} $TDLD (25 ALGO worth) to claim rewards. Please acquire more and try again.`
         );
-        if (isMobile && walletAddress.length > 0) {
-          handleMobileRedirect();
-        }
       }
     } catch (error) {
-      console.error("Error checking opt-in status:", error);
-      setFeedbackMessage("Error checking opt-in status. Please try again.");
+      console.error("Error checking $TDLD balance:", error);
+      setFeedbackMessage("Error checking $TDLD balance. Please try again.");
     }
-  };
-
-  // Handle mobile redirect for opt-in
-  const handleMobileRedirect = () => {
-    const paymentUrl = `perawallet://?amount=0&asset=${ASSET_ID}`;
-    localStorage.setItem("waitingForOptIn", true); // Set flag indicating the redirect
-    window.location.href = paymentUrl;
-
-    // Clear the wallet address after redirect
-    setWalletAddress("");
   };
 
   // Handle reward claim process
@@ -94,44 +73,40 @@ const RewardClaim = ({ score, resetGame }) => {
       return;
     }
 
-    setDisable(true);
     setFeedbackMessage("Processing your reward claim...");
 
     try {
-      await axios.post(`${API_BASE_URL}/send-rewards`, {
+      const response = await axios.post(`${API_BASE_URL}/send-rewards`, {
         to: walletAddress,
         score,
       });
 
-      await updateLeaderboard(walletAddress, score);
-      setFeedbackMessage("Reward claimed! Check your wallet for the reward.");
-      setCurrentStep(3);
+      if (response.data.success) {
+        setFeedbackMessage(response.data.message);
+        setCurrentStep(3);
+      } else {
+        setFeedbackMessage(response.data.message);
+      }
     } catch (error) {
+      if (error?.status === 429) {
+        setFeedbackMessage(error?.response?.data?.message);
+      } else {
+        setFeedbackMessage("Failed to claim the reward. Please try again.");
+      }
       console.error("Error claiming reward:", error);
-      setFeedbackMessage("Failed to claim the reward. Please try again.");
-    } finally {
-      setDisable(false);
-    }
-  };
-
-  // Update leaderboard
-  const updateLeaderboard = async (name, score) => {
-    try {
-      await axios.post(`${API_BASE_URL}/update-leaderboard`, { name, score });
-      console.log("Leaderboard updated");
-    } catch (error) {
-      console.error("Failed to update leaderboard:", error);
     }
   };
 
   // Handle wallet input changes
   const handleInputChange = (e) => {
     const newAddress = e.target.value;
+    if (`${newAddress}`.trim().length < 58) {
+      setEligilbility(false);
+    }
     setWalletAddress(newAddress);
 
-    // Check opt-in status whenever address changes
     if (newAddress && currentStep === 1) {
-      checkOptInStatus();
+      checkMinimumBalance();
     }
   };
 
@@ -142,11 +117,12 @@ const RewardClaim = ({ score, resetGame }) => {
         {feedbackMessage && <p>{feedbackMessage}</p>}
       </div>
       <br></br>
-      {/* Step 1: Opt-in process */}
+
+      {/* Step 1: Check $TDLD balance */}
       {currentStep === 1 && (
         <div className={RestartGameStyles.stepContainer}>
           <h2 className={RestartGameStyles.stepTitle}>
-            Enter Wallet Address to Opt-in to $TDLD and Claim Your Reward!
+            Enter Wallet Address to Check $TDLD Balance
           </h2>
           <input
             type="text"
@@ -155,36 +131,23 @@ const RewardClaim = ({ score, resetGame }) => {
             onChange={handleInputChange}
             className={RestartGameStyles.walletInput}
           />
-          {!hasOptedIn && !isMobile && (
-            <div className={RestartGameStyles.stepContainer}>
-              <img
-                src={qrcode}
-                alt="QR Code for $TDLD Opt-In"
-                className={RestartGameStyles.qrImage}
-              />
-              <p className={RestartGameStyles.instructions}>
-                Scan the QR code to opt-in to the TDLD token.
-              </p>
-            </div>
-          )}
         </div>
       )}
 
-      {/* Step 2: Re-enter address for reward claim */}
+      {/* Step 2: Claim reward */}
       {currentStep === 2 && (
         <div className={RestartGameStyles.stepContainer}>
           <h2 className={RestartGameStyles.stepTitle}>Claim Your Reward</h2>
           <input
             type="text"
-            placeholder="Enter your wallet address"
+            placeholder="Re-enter your wallet address"
             value={walletAddress}
             onChange={handleInputChange}
-            onPaste={handleInputChange}
             className={RestartGameStyles.walletInput}
           />
           <button
             className={RestartGameStyles.claimButton}
-            disabled={disable}
+            disabled={!eligilbe}
             onClick={handleClaimReward}
           >
             Claim Reward
