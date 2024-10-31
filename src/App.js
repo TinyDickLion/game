@@ -17,7 +17,7 @@ const App = () => (
         <Route path="/match-3-mania" element={<Game />} />
         <Route path="/trivia-takedown" element={<TriviaContainer />} />
         <Route path="/rewards-game-guide" element={<GameDescription />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        {/* <Route path="/leaderboard" element={<Leaderboard />} /> */}
       </Routes>
     </PeraWalletProvider>
   </Router>
