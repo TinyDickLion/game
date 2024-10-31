@@ -18,6 +18,16 @@ const NavBar = () => {
         </li>
         <li className={NavBarStyles.navItem}>
           <NavLink
+            to="/rewards-game-guide"
+            className={({ isActive }) =>
+              isActive ? NavBarStyles.activeLink : ""
+            }
+          >
+            Rewards & Game Guide
+          </NavLink>
+        </li>
+        <li className={NavBarStyles.navItem}>
+          <NavLink
             to="/match-3-mania"
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""

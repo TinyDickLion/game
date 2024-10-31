@@ -5,6 +5,7 @@ import NavBar from "./components/Navbar";
 import Game from "./components/Game";
 import HomePage from "./components/HomePage";
 import Leaderboard from "./components/Leaderboard";
+import GameDescription from "./components/GameDescription";
 
 const App = () => (
   <Router>
@@ -13,6 +14,7 @@ const App = () => (
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/match-3-mania" element={<Game />} />
+        <Route path="/rewards-game-guide" element={<GameDescription />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </PeraWalletProvider>

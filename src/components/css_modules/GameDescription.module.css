@@ -1,0 +1,116 @@
+/* GameDescription.module.css */
+
+.outerContainer {
+  display: flex;
+  justify-content: center;
+  padding-top: 120px;
+  /* Adjust based on navbar height */
+  padding-bottom: 40px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #13132b, #0b0b16);
+}
+
+.container {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 20px;
+  margin-top: 2em;
+  margin-left: 24em;
+  margin-bottom: 2em;
+  padding: 25px;
+  background: #1c1c36;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  color: #fafafa;
+}
+
+.title {
+  font-size: 2.4rem;
+  text-align: center;
+  font-weight: bold;
+  color: #00d8ff;
+  text-shadow: 1px 1px 6px rgba(0, 216, 255, 0.5);
+  margin-bottom: 30px;
+  background: linear-gradient(to right, #00d8ff, #ff00d8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section {
+  background: rgba(255, 255, 255, 0.03);
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.heading {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #ffc700;
+  text-shadow: 1px 1px 3px rgba(255, 199, 0, 0.5);
+}
+
+.text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #d0d0e3;
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+/* Mobile-Friendly Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+    margin-top: 5em;
+    margin-left: 1.25em;
+    margin-bottom: 2em;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin-bottom: 24px;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+  }
+
+  .text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 90%;
+    padding: 15px;
+    margin-top: 5em;
+    margin-left: 1.25em;
+    margin-bottom: 2em;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .heading {
+    font-size: 1.3rem;
+  }
+
+  .text {
+    font-size: 0.9rem;
+  }
+}
