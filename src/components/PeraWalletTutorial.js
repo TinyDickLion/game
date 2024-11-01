@@ -59,7 +59,7 @@ const PeraWalletTutorial = () => {
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Learn Pera Wallet: 10-Part Video Series</h1>
-            <p className={styles.subtitle}>Master your Pera Wallet with our step-by-step tutorial series.</p>
+            <p className={styles.subtitle}>Master your Pera Wallet with this step-by-step tutorial series.</p>
             <div className={styles.episodes}>
                 {episodes.map((episode, index) => (
                     <div key={index} className={styles.episode}>
