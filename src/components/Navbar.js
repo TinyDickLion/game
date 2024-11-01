@@ -74,7 +74,7 @@ const NavBar = () => {
         </li>
         <li className={NavBarStyles.navItem}>
           <NavLink
-            to="/onboard-pera-wallet"
+            to="/learn-pera-wallet"
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }

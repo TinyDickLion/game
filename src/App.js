@@ -19,7 +19,7 @@ const App = () => (
         {/* <Route path="/trivia-takedown" element={<TriviaContainer />} /> */}
         <Route path="/rewards-game-guide" element={<GameDescription />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
-        <Route path="/onboard-pera-wallet" element={<PeraWalletTutorial />} />
+        <Route path="/learn-pera-wallet" element={<PeraWalletTutorial />} />
       </Routes>
     </PeraWalletProvider>
   </Router>
