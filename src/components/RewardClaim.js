@@ -122,7 +122,7 @@ const RewardClaim = ({ score, resetGame }) => {
       {currentStep === 1 && (
         <div className={RestartGameStyles.stepContainer}>
           <h2 className={RestartGameStyles.stepTitle}>
-            Enter Wallet Address to Check $TDLD Balance
+          Please Enter Wallet Address to Check $TDLD Balance and Claim Your Reward
           </h2>
           <input
             type="text"
