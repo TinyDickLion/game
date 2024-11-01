@@ -1,0 +1,82 @@
+/* OnboardingGuide.module.css */
+.container {
+    max-width: 750px;
+    margin: 40px auto;
+    margin-top: 2em;
+    padding: 20px;
+    background-color: #1e1e2f;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    color: #e0e0e0;
+}
+
+.title {
+    font-size: 2.2rem;
+    color: #ffc700;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.heading {
+    font-size: 1.6rem;
+    color: #ffc700;
+    margin-bottom: 10px;
+}
+
+.text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #b0b0c3;
+}
+
+.links {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+
+.link {
+    font-size: 1rem;
+    color: #1e90ff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.link:hover {
+    color: #ffc700;
+}
+
+/* Mobile-Friendly Styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 20px auto;
+        margin-top: 5em;
+    }
+    
+    .title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .heading {
+        font-size: 1.4rem;
+    }
+    
+    .text {
+        font-size: 0.95rem;
+    }
+    
+    .links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .link {
+        margin: 10px 0;
+    }
+}

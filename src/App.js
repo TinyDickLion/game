@@ -7,6 +7,7 @@ import HomePage from "./components/HomePage";
 import Leaderboard from "./components/Leaderboard";
 import GameDescription from "./components/GameDescription";
 import TriviaContainer from "./components/TriviaContainer";
+import PeraWalletTutorial from "./components/PeraWalletTutorial";
 
 const App = () => (
   <Router>
@@ -18,6 +19,7 @@ const App = () => (
         {/* <Route path="/trivia-takedown" element={<TriviaContainer />} /> */}
         <Route path="/rewards-game-guide" element={<GameDescription />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/onboard-pera-wallet" element={<PeraWalletTutorial />} />
       </Routes>
     </PeraWalletProvider>
   </Router>

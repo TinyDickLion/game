@@ -1,11 +1,27 @@
-import React from "react";
+// NavBar.js
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import NavBarStyles from "./css_modules/NavBarStyles.module.css";
 
 const NavBar = () => {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const toggleMenu = () => {
+    setShowMenu((prev) => !prev);
+  };
+
   return (
     <nav className={NavBarStyles.navBar}>
-      <ul className={NavBarStyles.navList}>
+      <div className={NavBarStyles.hamburger} onClick={toggleMenu}>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul
+        className={`${NavBarStyles.navList} ${
+          showMenu ? NavBarStyles.open : ""
+        }`}
+      >
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/"
@@ -54,6 +70,16 @@ const NavBar = () => {
             }
           >
             Leaderboard
+          </NavLink>
+        </li>
+        <li className={NavBarStyles.navItem}>
+          <NavLink
+            to="/onboard-pera-wallet"
+            className={({ isActive }) =>
+              isActive ? NavBarStyles.activeLink : ""
+            }
+          >
+            How to use Pera Wallet
           </NavLink>
         </li>
       </ul>
