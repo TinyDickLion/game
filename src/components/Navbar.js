@@ -1,4 +1,3 @@
-// NavBar.js
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import NavBarStyles from "./css_modules/NavBarStyles.module.css";
@@ -8,6 +7,11 @@ const NavBar = () => {
 
   const toggleMenu = () => {
     setShowMenu((prev) => !prev);
+  };
+
+  // Function to close menu on item click
+  const closeMenu = () => {
+    setShowMenu(false);
   };
 
   return (
@@ -25,6 +29,7 @@ const NavBar = () => {
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/"
+            onClick={closeMenu} // Closes the menu on click
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }
@@ -35,6 +40,7 @@ const NavBar = () => {
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/rewards-game-guide"
+            onClick={closeMenu} // Closes the menu on click
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }
@@ -45,6 +51,7 @@ const NavBar = () => {
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/match-3-mania"
+            onClick={closeMenu} // Closes the menu on click
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }
@@ -52,19 +59,10 @@ const NavBar = () => {
             Match 3 Mania
           </NavLink>
         </li>
-        {/* <li className={NavBarStyles.navItem}>
-          <NavLink
-            to="/trivia-takedown"
-            className={({ isActive }) =>
-              isActive ? NavBarStyles.activeLink : ""
-            }
-          >
-            Trivia Takedown
-          </NavLink>
-        </li> */}
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/leaderboard"
+            onClick={closeMenu} // Closes the menu on click
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }
@@ -75,6 +73,7 @@ const NavBar = () => {
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/learn-pera-wallet"
+            onClick={closeMenu} // Closes the menu on click
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }
