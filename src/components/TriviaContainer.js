@@ -26,6 +26,7 @@ const TriviaContainer = () => {
       {!gameStarted ? (
         <div className={styles.intro}>
           <h2 className={styles.theme}>Trivia Takedown</h2>
+          <br></br>
           <button
             className={styles.startButton}
             onClick={() => setGameStarted(true)}
@@ -36,7 +37,12 @@ const TriviaContainer = () => {
       ) : !isGameOver ? (
         <TriviaGame onGameEnd={handleGameEnd} />
       ) : (
-        <RewardClaim scoreCheck={score >=80} score={score} gameName={"trivia"} resetGame={resetGame} />
+        <RewardClaim
+          scoreCheck={score >= 80}
+          score={score}
+          gameName={"trivia"}
+          resetGame={resetGame}
+        />
       )}
     </div>
   );

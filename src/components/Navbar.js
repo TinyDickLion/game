@@ -38,6 +38,16 @@ const NavBar = () => {
           </NavLink>
         </li>
         <li className={NavBarStyles.navItem}>
+          <a
+            href="https://vestige.fi/asset/2176744157" // Replace with your actual Dexscreener link
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={closeMenu} // Closes the menu on click
+          >
+            Get $TDLD
+          </a>
+        </li>
+        <li className={NavBarStyles.navItem}>
           <NavLink
             to="/rewards-game-guide"
             onClick={closeMenu} // Closes the menu on click
