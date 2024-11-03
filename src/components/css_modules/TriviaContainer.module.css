@@ -61,7 +61,8 @@
     text-align: center;
 }
 
-.answerOptions,.intro{
+.answerOptions,
+.intro {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -81,8 +82,54 @@
     text-align: center;
 }
 
-/* Mobile adjustments */
+/* Mobile Styles */
+@media (max-width: 1024px) {
+    .gameContainer {
+        padding: 15px;
+        margin-left: 20em;
+    }
+
+    .questionText {
+        font-size: 1.2rem;
+    }
+
+    .answerButton {
+        font-size: 0.95rem;
+        padding: 10px 16px;
+    }
+}
+
 @media (max-width: 768px) {
+    .gameContainer {
+        padding: 15px;
+    }
+
+    .questionText {
+        font-size: 1.2rem;
+    }
+
+    .answerButton {
+        font-size: 0.95rem;
+        padding: 10px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gameContainer {
+        padding: 15px;
+    }
+
+    .questionText {
+        font-size: 1.2rem;
+    }
+
+    .answerButton {
+        font-size: 0.95rem;
+        padding: 10px 16px;
+    }
+}
+
+@media (max-width: 360px) {
     .gameContainer {
         padding: 15px;
     }
