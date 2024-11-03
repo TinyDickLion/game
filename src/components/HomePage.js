@@ -76,7 +76,7 @@ const HomePage = () => {
         </h1>
         <br></br>
         <p className={HomePageStyles.description}>
-          Embark on an exciting journey to earn rewards by matching Crystals and
+          Embark on an exciting journey to earn rewards and
           reaching high scores. Are you ready?
         </p>
         <br></br>
