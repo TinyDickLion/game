@@ -82,6 +82,7 @@
 }
 
 .description {
+  font-weight: bold;
   font-size: 1.25rem;
   color: black;
   margin-bottom: 20px;

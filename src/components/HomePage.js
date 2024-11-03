@@ -75,10 +75,12 @@ const HomePage = () => {
           Welcome to Tiny Dick Lion's Den Games!
         </h1>
         <br></br>
-        <p className={HomePageStyles.description}>
-          Embark on an exciting journey to earn rewards and
-          reaching high scores. Are you ready?
-        </p>
+        <div style={{ backgroundColor: "white", padding: "1em" }}>
+          <p className={HomePageStyles.description}>
+            Embark on an exciting journey to earn rewards and reaching high
+            scores. Are you ready?
+          </p>
+        </div>
         <br></br>
         <div className={HomePageStyles.buttonContainer}>
           <Link to="/match-3-mania" className={HomePageStyles.button}>
