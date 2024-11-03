@@ -22,7 +22,6 @@ const Game = () => {
 
   const winningScore = 100;
 
-
   // Show interactive instructions for new players
   const handleInstructionsClose = () => {
     setShowInstructions(false);
@@ -38,7 +37,10 @@ const Game = () => {
             Matched elements will be removed, and new ones will fall from above.
           </p>
           <p>Reach 100 points to win and claim your reward!</p>
-          <button  className={GameStyles.instructionsbutton} onClick={handleInstructionsClose}>
+          <button
+            className={GameStyles.instructionsbutton}
+            onClick={handleInstructionsClose}
+          >
             Got it, let’s play!
           </button>
         </div>
@@ -68,7 +70,9 @@ const Game = () => {
         </>
       ) : (
         <RewardClaim
+          scoreCheck={score >= 100}
           score={score}
+          gameName={"match3mania"}
           resetGame={() => {
             setBoard([]);
             setScore(0);

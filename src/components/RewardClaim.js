@@ -3,7 +3,7 @@ import axios from "axios";
 import RestartGameStyles from "./css_modules/RestartGameStyles.module.css";
 import { algoIndexerClient } from "../algorand/config";
 
-const RewardClaim = ({ score, resetGame }) => {
+const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
   const [walletAddress, setWalletAddress] = useState("");
   const [eligilbe, setEligilbility] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -17,10 +17,10 @@ const RewardClaim = ({ score, resetGame }) => {
   let highTDLDBalance = 2000000; // Minimum $TDLD balance for 50 ALGO
 
   useEffect(() => {
-    if (score >= 100 && walletAddress) {
+    if (scoreCheck && walletAddress) {
       checkMinimumBalance();
     }
-  }, [score, walletAddress]);
+  }, [scoreCheck, walletAddress]);
 
   // Check the user's $TDLD balance and update required holdings
   const checkMinimumBalance = async () => {
@@ -79,6 +79,7 @@ const RewardClaim = ({ score, resetGame }) => {
       const response = await axios.post(`${API_BASE_URL}/send-rewards`, {
         to: walletAddress,
         score,
+        gameName
       });
 
       if (response.data.success) {
