@@ -4,7 +4,7 @@ import styles from "./css_modules/GameDescription.module.css";
 const GameDescription = () => {
   return (
     <div className={styles.container}>
-
+{/* 
       <section className={styles.section}>
         <h2 className={styles.heading}>How to Play</h2>
         <p className={styles.text}>
@@ -14,7 +14,7 @@ const GameDescription = () => {
           Rack up 100 points to claim your rewards and start winning in the
           world of $TDLD!
         </p>
-      </section>
+      </section> */}
 
       <section className={styles.section}>
         <h2 className={styles.heading}>$TDLD Economy</h2>
