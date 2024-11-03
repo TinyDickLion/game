@@ -4,18 +4,6 @@ import styles from "./css_modules/GameDescription.module.css";
 const GameDescription = () => {
   return (
     <div className={styles.container}>
-{/* 
-      <section className={styles.section}>
-        <h2 className={styles.heading}>How to Play</h2>
-        <p className={styles.text}>
-          Swap adjacent elements to match three or more of the same color in a
-          row or column. Matched elements disappear, making way for new ones to
-          fall into place, creating more opportunities for you to earn points.
-          Rack up 100 points to claim your rewards and start winning in the
-          world of $TDLD!
-        </p>
-      </section> */}
-
       <section className={styles.section}>
         <h2 className={styles.heading}>$TDLD Economy</h2>
         <p className={styles.text}>
@@ -53,7 +41,16 @@ const GameDescription = () => {
           reasons to stay engaged and earn with $TDLD!
         </p>
       </section>
-      
+
+      <section className={styles.section}>
+        <h2 className={styles.heading}>Reward Structure Adjustments</h2>
+        <p className={styles.text} style={{ fontWeight: "bold" }}>
+          Please note that the reward structure may change at our discretion in
+          response to market conditions and community growth. Our goal is to
+          maintain a sustainable and engaging ecosystem for $TDLD holders, and
+          we’ll make adjustments as needed to ensure long-term value.
+        </p>
+      </section>
     </div>
   );
 };
