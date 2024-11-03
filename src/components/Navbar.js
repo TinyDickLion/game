@@ -61,6 +61,17 @@ const NavBar = () => {
         </li>
         <li className={NavBarStyles.navItem}>
           <NavLink
+            to="/trivia-takedown"
+            onClick={closeMenu} // Closes the menu on click
+            className={({ isActive }) =>
+              isActive ? NavBarStyles.activeLink : ""
+            }
+          >
+            Trivia Takedown
+          </NavLink>
+        </li>
+        <li className={NavBarStyles.navItem}>
+          <NavLink
             to="/leaderboard"
             onClick={closeMenu} // Closes the menu on click
             className={({ isActive }) =>
