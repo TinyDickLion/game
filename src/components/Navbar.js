@@ -14,26 +14,9 @@ const NavBar = () => {
     setShowMenu(false);
   };
 
-  // Handle touch to simulate hover on mobile
-  const handleTouchStart = (event) => {
-    const target = event.target.closest(`.${NavBarStyles.navItem} a`);
-    if (target) {
-      target.classList.add(NavBarStyles.hover); // Add hover class on touch
-    }
-  };
-
-  const handleTouchEnd = (event) => {
-    const target = event.target.closest(`.${NavBarStyles.navItem} a`);
-    if (target) {
-      target.classList.remove(NavBarStyles.hover); // Remove hover class
-    }
-  };
-
   return (
     <nav
       className={NavBarStyles.navBar}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
       <div className={NavBarStyles.hamburger} onClick={toggleMenu}>
         <div></div>
