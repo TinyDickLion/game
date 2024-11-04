@@ -73,6 +73,7 @@ const App = () => {
     <Router>
       <NavBar />
       <PeraWalletProvider>
+        <div className="backgroundOverlay"></div>
         <div className="canvasContainer" ref={mountRef}></div>
         <Routes>
           <Route path="/" element={<HomePage />} />
