@@ -32,7 +32,6 @@ const TriviaContainer = () => {
             $TDLD rewards!
           </p>
           <br></br>
-          <br></br>
           <button
             className={styles.startButton}
             onClick={() => setGameStarted(true)}
