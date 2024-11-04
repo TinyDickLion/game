@@ -5,11 +5,23 @@
 }
 
 body {
+    overflow: hidden;
+    /* Prevents unwanted scrollbars */
+}
+
+body {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-image: url('images/backgroundtdld.png');
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: calc(50% + var(--xOffset)) calc(50% + var(--yOffset));
     background-attachment: fixed;
+    z-index: -1;
 }
 
 .canvasContainer {
@@ -18,7 +30,5 @@ body {
     width: 100%;
     height: 100vh;
     pointer-events: none;
-    /* Ensures no interference with page interactions */
-    z-index: -1;
-    /* Places canvas behind other content */
+    z-index: -2;
 }

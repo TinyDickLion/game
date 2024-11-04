@@ -11,7 +11,6 @@ import TriviaContainer from "./components/TriviaContainer";
 import PeraWalletTutorial from "./components/PeraWalletTutorial";
 import WhitePaper from "./components/WhitePaper";
 import * as THREE from "three";
-// import HomePageStyles from "./components/css_modules/HomePageStyles.module.css";
 
 const App = () => {
   const mountRef = useRef(null);
@@ -32,7 +31,6 @@ const App = () => {
     renderer.setPixelRatio(window.devicePixelRatio);
     mountRef.current.appendChild(renderer.domElement);
 
-    // Responsive resize handling
     const handleResize = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -53,22 +51,31 @@ const App = () => {
       return particle;
     });
 
-    // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
       particles.forEach((p) => {
-        p.position.y += 0.002; // Upward drift effect
+        p.position.y += 0.002;
         p.rotation.x += 0.005;
         p.rotation.y += 0.005;
-        if (p.position.y > 4) p.position.y = -4; // Reset when reaching top
+        if (p.position.y > 4) p.position.y = -4;
       });
       renderer.render(scene, camera);
     };
     animate();
 
-    // Cleanup function
+    // Parallax effect based on mouse movement
+    const handleMouseMove = (event) => {
+      const { innerWidth, innerHeight } = window;
+      const xOffset = ((event.clientX / innerWidth) - 0.5) * 10; // adjust sensitivity
+      const yOffset = ((event.clientY / innerHeight) - 0.5) * 10; // adjust sensitivity
+      document.body.style.setProperty("--xOffset", `${xOffset}px`);
+      document.body.style.setProperty("--yOffset", `${yOffset}px`);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
       mountRef?.current?.removeChild(renderer.domElement);
     };
   }, []);
@@ -84,7 +91,6 @@ const App = () => {
           <Route path="/trivia-takedown" element={<TriviaContainer />} />
           <Route path="/rewards-game-guide" element={<GameDescription />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          {/* <Route path="/white-paper" element={<WhitePaper />} /> */}
           <Route path="/learn-pera-wallet" element={<PeraWalletTutorial />} />
         </Routes>
       </PeraWalletProvider>
