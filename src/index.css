@@ -11,3 +11,14 @@ body {
     background-position: center;
     background-attachment: fixed;
 }
+
+.canvasContainer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    /* Ensures no interference with page interactions */
+    z-index: -1;
+    /* Places canvas behind other content */
+}

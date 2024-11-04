@@ -11,7 +11,7 @@ import TriviaContainer from "./components/TriviaContainer";
 import PeraWalletTutorial from "./components/PeraWalletTutorial";
 import WhitePaper from "./components/WhitePaper";
 import * as THREE from "three";
-import HomePageStyles from "./components/css_modules/HomePageStyles.module.css";
+// import HomePageStyles from "./components/css_modules/HomePageStyles.module.css";
 
 const App = () => {
   const mountRef = useRef(null);
@@ -47,7 +47,7 @@ const App = () => {
       const particle = new THREE.Mesh(particleGeometry, particleMaterial);
       particle.position.set(
         (Math.random() - 0.5) * 8,
-        (Math.random() - 0.5) * 8,
+        -4 + Math.random() * 4, // Starts near the bottom and drifts up
         (Math.random() - 0.5) * 8
       );
       scene.add(particle);
@@ -61,7 +61,7 @@ const App = () => {
         p.position.y += 0.002; // Upward drift effect
         p.rotation.x += 0.005;
         p.rotation.y += 0.005;
-        if (p.position.y > 4) p.position.y = -4;
+        if (p.position.y > 4) p.position.y = -4; // Reset when reaching top
       });
       renderer.render(scene, camera);
     };
@@ -76,9 +76,9 @@ const App = () => {
 
   return (
     <Router>
+      <NavBar />
       <PeraWalletProvider>
-        <NavBar />
-        <div className={HomePageStyles.canvasContainer} ref={mountRef}></div>
+        <div className="canvasContainer" ref={mountRef}></div>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/match-3-mania" element={<Game />} />
