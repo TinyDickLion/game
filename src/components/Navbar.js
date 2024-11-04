@@ -14,8 +14,27 @@ const NavBar = () => {
     setShowMenu(false);
   };
 
+  // Handle touch to simulate hover on mobile
+  const handleTouchStart = (event) => {
+    const target = event.target.closest(`.${NavBarStyles.navItem} a`);
+    if (target) {
+      target.classList.add(NavBarStyles.hover); // Add hover class on touch
+    }
+  };
+
+  const handleTouchEnd = (event) => {
+    const target = event.target.closest(`.${NavBarStyles.navItem} a`);
+    if (target) {
+      target.classList.remove(NavBarStyles.hover); // Remove hover class
+    }
+  };
+
   return (
-    <nav className={NavBarStyles.navBar}>
+    <nav
+      className={NavBarStyles.navBar}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className={NavBarStyles.hamburger} onClick={toggleMenu}>
         <div></div>
         <div></div>
@@ -102,17 +121,6 @@ const NavBar = () => {
             How to use Pera Wallet
           </NavLink>
         </li>
-        {/* <li className={NavBarStyles.navItem}>
-          <NavLink
-            to="/white-paper"
-            onClick={closeMenu} // Closes the menu on click
-            className={({ isActive }) =>
-              isActive ? NavBarStyles.activeLink : ""
-            }
-          >
-            White Paper V 0.1
-          </NavLink>
-        </li> */}
       </ul>
     </nav>
   );
