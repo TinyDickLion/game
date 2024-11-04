@@ -42,7 +42,7 @@ const App = () => {
 
     const particleGeometry = new THREE.SphereGeometry(0.05, 16, 16);
     const particleMaterial = new THREE.MeshBasicMaterial({ color: 0x8844ee });
-    const particles = Array.from({ length: 100 }, () => {
+    const particles = Array.from({ length: 200 }, () => {
       const particle = new THREE.Mesh(particleGeometry, particleMaterial);
       particle.position.set(
         (Math.random() - 0.5) * 16,
