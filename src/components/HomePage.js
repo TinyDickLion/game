@@ -71,7 +71,7 @@ const HomePage = () => {
 
       {/* Welcome Text and Start Button */}
       <div
-        style={{ backgroundColor: "antiquewhite", padding: "1em" }}
+        style={{ backgroundColor: "antiquewhite", padding: "1em", opacity:"0.8" }}
         className={HomePageStyles.content}
       >
         <h1 className={HomePageStyles.title}>
