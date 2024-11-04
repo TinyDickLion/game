@@ -63,19 +63,8 @@ const App = () => {
     };
     animate();
 
-    // Parallax effect based on mouse movement
-    const handleMouseMove = (event) => {
-      const { innerWidth, innerHeight } = window;
-      const xOffset = ((event.clientX / innerWidth) - 0.5) * 10; // adjust sensitivity
-      const yOffset = ((event.clientY / innerHeight) - 0.5) * 10; // adjust sensitivity
-      document.body.style.setProperty("--xOffset", `${xOffset}px`);
-      document.body.style.setProperty("--yOffset", `${yOffset}px`);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
       mountRef?.current?.removeChild(renderer.domElement);
     };
   }, []);
