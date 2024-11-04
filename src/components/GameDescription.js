@@ -33,6 +33,16 @@ const GameDescription = () => {
       </section>
 
       <section className={styles.section}>
+        <h2 className={styles.heading}>Daily Reward Limit</h2>
+        <p className={styles.text}>
+          Feel free to play as many games as you'd like throughout the day! However,
+          please note that each wallet address can only claim one reward per day,
+          even if you win in multiple games. Choose your best performance to claim
+          your reward, and come back tomorrow to compete again!
+        </p>
+      </section>
+
+      <section className={styles.section}>
         <h2 className={styles.heading}>Future Rewards</h2>
         <p className={styles.text}>
           Coming soon: We’ll be introducing weekly, monthly, and yearly rewards
