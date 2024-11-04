@@ -61,6 +61,21 @@
     text-align: center;
 }
 
+.playAgainButton {
+    background: #3689f0;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.playAgainButton:hover {
+    background: hsl(213, 88%, 51%);
+}
+
 .answerOptions,
 .intro {
     display: flex;
