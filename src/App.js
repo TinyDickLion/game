@@ -25,7 +25,7 @@ const App = () => {
       0.1,
       1000
     );
-    camera.position.z = 5;
+    camera.position.z = 8;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -40,15 +40,14 @@ const App = () => {
     };
     window.addEventListener("resize", handleResize);
 
-    // Create floating particles (or crystals)
     const particleGeometry = new THREE.SphereGeometry(0.05, 16, 16);
     const particleMaterial = new THREE.MeshBasicMaterial({ color: 0x8844ee });
-    const particles = Array.from({ length: 60 }, () => {
+    const particles = Array.from({ length: 100 }, () => {
       const particle = new THREE.Mesh(particleGeometry, particleMaterial);
       particle.position.set(
-        (Math.random() - 0.5) * 8,
-        -4 + Math.random() * 4, // Starts near the bottom and drifts up
-        (Math.random() - 0.5) * 8
+        (Math.random() - 0.5) * 16,
+        -4 + Math.random() * 4,
+        (Math.random() - 0.5) * 16
       );
       scene.add(particle);
       return particle;
