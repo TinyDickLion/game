@@ -102,6 +102,17 @@ const NavBar = () => {
             How to use Pera Wallet
           </NavLink>
         </li>
+        {/* <li className={NavBarStyles.navItem}>
+          <NavLink
+            to="/white-paper"
+            onClick={closeMenu} // Closes the menu on click
+            className={({ isActive }) =>
+              isActive ? NavBarStyles.activeLink : ""
+            }
+          >
+            White Paper V 0.1
+          </NavLink>
+        </li> */}
       </ul>
     </nav>
   );
