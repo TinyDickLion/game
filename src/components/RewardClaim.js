@@ -74,6 +74,7 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
     }
 
     setFeedbackMessage("Processing your reward claim...");
+    setEligilbility(false);
 
     try {
       const response = await axios.post(`${API_BASE_URL}/send-rewards`, {
