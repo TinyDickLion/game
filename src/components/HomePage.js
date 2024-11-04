@@ -70,18 +70,18 @@ const HomePage = () => {
       <div className={HomePageStyles.canvasContainer} ref={mountRef}></div>
 
       {/* Welcome Text and Start Button */}
-      <div className={HomePageStyles.content}>
+      <div
+        style={{ backgroundColor: "antiquewhite", padding: "1em" }}
+        className={HomePageStyles.content}
+      >
         <h1 className={HomePageStyles.title}>
           Welcome to Tiny Dick Lion's Den Games!
         </h1>
         <br></br>
-        <div style={{ backgroundColor: "white", padding: "1em" }}>
-          <p className={HomePageStyles.description}>
-            Embark on an exciting journey to earn rewards and reaching high
-            scores. Are you ready?
-          </p>
-        </div>
-        <br></br>
+        <p className={HomePageStyles.description}>
+          Embark on an exciting journey to earn rewards and reaching high
+          scores. Are you ready?
+        </p>
         <div className={HomePageStyles.buttonContainer}>
           <Link to="/match-3-mania" className={HomePageStyles.button}>
             Start

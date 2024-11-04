@@ -5,5 +5,9 @@
 }
 
 body {
-    background-color: rgb(217, 157, 26);
+    background-image: url('images/backgroundtdld.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 }

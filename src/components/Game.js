@@ -47,9 +47,9 @@ const Game = () => {
       )}
 
       {score < winningScore ? (
-        <h1 style={{ color: "white" }}>Score 100 points to Win</h1>
+        <h1 style={{ backgroundColor: "white" }}>Score 100 points to Win</h1>
       ) : (
-        <h1 style={{ color: "white" }}>You Win!</h1>
+        <h1 style={{ color: "aqua" }}>You Win!</h1>
       )}
       {score < winningScore ? (
         <>
@@ -69,16 +69,27 @@ const Game = () => {
           />
         </>
       ) : (
-        <RewardClaim
-          scoreCheck={score >= 100}
-          score={score}
-          gameName={"match3mania"}
-          resetGame={() => {
-            setBoard([]);
-            setScore(0);
-            setGameOver(false);
+        <div
+          style={{
+            backgroundColor: "#0d0d17",
+            color: "#e0e0e0",
+            padding: "1em",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
-        />
+        >
+          <RewardClaim
+            scoreCheck={score >= 100}
+            score={score}
+            gameName={"match3mania"}
+            resetGame={() => {
+              setBoard([]);
+              setScore(0);
+              setGameOver(false);
+            }}
+          />
+        </div>
       )}
 
       {score >= winningScore ? (
