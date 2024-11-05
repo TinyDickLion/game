@@ -56,10 +56,78 @@
     }
 }
 
-.startButton:hover {
-    background-color: #3a8cdd;
-    transform: scale(1.05);
+.startButton,
+.playAgainButton {
+    background: linear-gradient(135deg, #1e90ff, #0077cc);
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+    animation: buttonFadeIn 0.6s ease forwards;
+    transform: translateY(20px);
+    opacity: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(30, 144, 255, 0.4);
 }
+
+@keyframes buttonFadeIn {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.startButton:hover,
+.playAgainButton:hover {
+    background: linear-gradient(135deg, #3a8cdd, #005da3);
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(30, 144, 255, 0.6);
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 300px;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1a1a2e, #242434);
+    color: #00ff87;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 8px rgba(0, 255, 135, 0.4);
+    animation: bounceScoreboard 1s ease infinite alternate;
+    text-align: center;
+    align-items: center;
+}
+
+.scoreboard div {
+    width: 45%;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.scoreboard div:hover {
+    transform: scale(1.05);
+    background: rgba(0, 255, 135, 0.1);
+}
+
+@keyframes bounceScoreboard {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-5px);
+    }
+}
+
+
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
