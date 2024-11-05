@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import NavBarStyles from "./css_modules/NavBarStyles.module.css";
 
@@ -9,16 +9,33 @@ const NavBar = () => {
     setShowMenu((prev) => !prev);
   };
 
-  // Function to close menu on item click
   const closeMenu = () => {
     setShowMenu(false);
   };
 
+  // Effect to handle screen resizing and reset the menu on larger screens
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setShowMenu(false); // Close menu and reset icon on large screens
+      }
+    };
+
+    // Attach resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <nav
-      className={NavBarStyles.navBar}
-    >
-      <div className={NavBarStyles.hamburger} onClick={toggleMenu}>
+    <nav className={NavBarStyles.navBar}>
+      <div
+        className={`${NavBarStyles.hamburger} ${
+          showMenu ? NavBarStyles.open : ""
+        }`}
+        onClick={toggleMenu}
+      >
         <div></div>
         <div></div>
         <div></div>
@@ -31,7 +48,7 @@ const NavBar = () => {
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/"
-            onClick={closeMenu} // Closes the menu on click
+            onClick={closeMenu}
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }
@@ -41,10 +58,10 @@ const NavBar = () => {
         </li>
         <li className={NavBarStyles.navItem}>
           <a
-            href="https://vestige.fi/asset/2176744157" // Replace with your actual Dexscreener link
+            href="https://vestige.fi/asset/2176744157"
             target="_blank"
             rel="noopener noreferrer"
-            onClick={closeMenu} // Closes the menu on click
+            onClick={closeMenu}
           >
             Get $TDLD
           </a>
@@ -52,7 +69,7 @@ const NavBar = () => {
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/rewards-game-guide"
-            onClick={closeMenu} // Closes the menu on click
+            onClick={closeMenu}
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }
@@ -63,7 +80,7 @@ const NavBar = () => {
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/match-3-mania"
-            onClick={closeMenu} // Closes the menu on click
+            onClick={closeMenu}
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }
@@ -74,7 +91,7 @@ const NavBar = () => {
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/trivia-takedown"
-            onClick={closeMenu} // Closes the menu on click
+            onClick={closeMenu}
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }
@@ -85,7 +102,7 @@ const NavBar = () => {
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/leaderboard"
-            onClick={closeMenu} // Closes the menu on click
+            onClick={closeMenu}
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }
@@ -96,7 +113,7 @@ const NavBar = () => {
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/learn-pera-wallet"
-            onClick={closeMenu} // Closes the menu on click
+            onClick={closeMenu}
             className={({ isActive }) =>
               isActive ? NavBarStyles.activeLink : ""
             }

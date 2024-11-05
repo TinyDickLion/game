@@ -87,6 +87,7 @@
   transition: background 0.3s ease, transform 0.3s ease;
 }
 
+/* Bounce effect for the top bar */
 .hamburger div:nth-child(1) {
   animation: bounce 0.6s infinite alternate;
 }
@@ -99,6 +100,29 @@
   to {
     transform: translateY(-3px);
   }
+}
+
+/* X icon inside a circle when the menu is open */
+.hamburger.open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}
+
+.hamburger.open div {
+  display: none;
+  /* Hide the hamburger bars */
+}
+
+.hamburger.open:before {
+  content: "✕";
+  color: white;
+  font-size: 1.5rem;
+  position: absolute;
 }
 
 /* Mobile-friendly Menu Styles */
