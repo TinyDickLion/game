@@ -1,16 +1,28 @@
 .element {
     width: 90%;
     height: 90%;
-    border: 5px solid rgba(86, 86, 86, 0.35);
-    border-left: 5px solid rgba(231, 231, 231, 0.35);
-    border-bottom: 5px solid rgba(231, 231, 231, 0.35);
-    border-radius: 10px;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
     place-self: center;
     opacity: 0;
-    cursor: pointer;
     animation: drop-elements 500ms forwards;
     animation-delay: 500ms;
-    -webkit-tap-highlight-color: transparent;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.element:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15), inset 0 0 30px rgba(255, 255, 255, 0.4);
+}
+
+.element:active {
+    transform: scale(0.98);
 }
 
 @keyframes drop-elements {
@@ -20,46 +32,73 @@
 
     to {
         opacity: 1;
+        transform: translateY(0);
     }
 }
 
-.element:active {
-    width: 100%;
-    height: 100%;
+[level="lv3"] {
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.2) 25%,
+            rgba(0, 0, 0, 0.15) 25%,
+            rgba(0, 0, 0, 0.15) 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 0, 150, 0.25) 75%,
+            rgba(60, 120, 220, 0.2) 75%);
+    background-size: 150% 150%;
+    border: none;
 }
 
-[flag="removed"] {
-    border: 5px solid rgb(255, 255, 255) !important;
-}
-
-/* --- ELEMENT COLORS --- */
-
+/* Gradient colors for primary elements */
 .yellow {
-    background: rgb(252, 255, 91);
+    background: radial-gradient(circle, #fef08a, #f7b500);
 }
 
 .green {
-    background: rgb(91, 255, 105);
+    background: radial-gradient(circle, #a3e635, #16a34a);
 }
 
 .blue {
-    background: rgb(61, 74, 255);
+    background: radial-gradient(circle, #3b82f6, #1e3a8a);
 }
 
 .red {
-    background: rgb(255, 58, 58);
+    background: radial-gradient(circle, #f87171, #be123c);
 }
 
 .orange {
-    background: rgb(255, 159, 80);
+    background: radial-gradient(circle, #fb923c, #b45309);
 }
 
 .purple {
-    background: rgb(225, 0, 255);
+    background: radial-gradient(circle, #c084fc, #7e22ce);
 }
 
 .pink {
-    background: rgb(255, 0, 166);
+    background: radial-gradient(circle, #f472b6, #be185d);
+}
+
+/* Advanced element styles */
+[level="lv2_h"],
+[level="lv2_v"],
+[level="LT1"],
+[level="LT2"] {
+    background-size: 100%;
+    background-position: center;
+    opacity: 0.9;
+    animation: pulse 1.5s ease infinite;
+}
+
+/* Subtle pulsing animation */
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
 }
 
 /* --- ADVANCED ELEMENTS --- */
