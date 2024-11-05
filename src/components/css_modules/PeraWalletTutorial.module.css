@@ -1,4 +1,28 @@
-.container {
+/* Container Animation */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes bounceIn {
+    0% {
+      transform: scale(0.9);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .container {
     max-width: 800px;
     margin: 2em auto;
     padding: 20px;
@@ -6,149 +30,159 @@
     border-radius: 8px;
     color: #e0e0e0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Central Title */
-.title {
+    animation: fadeIn 0.7s ease-out;
+  }
+  
+  /* Title Animation */
+  .title {
     font-size: 2rem;
     color: #ffc700;
     text-align: center;
     margin-bottom: 10px;
-}
-
-.subtitle {
+    animation: bounceIn 0.6s ease-out;
+  }
+  
+  .subtitle {
     text-align: center;
-    color: "aliceblue";
+    color: aliceblue;
     margin-bottom: 20px;
     font-size: 1.1rem;
-}
-
-.episodes {
+  }
+  
+  .episodes {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-.episode {
+  }
+  
+  /* Episode Hover Effect */
+  .episode {
     background-color: #29294d;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.episodeTitle {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .episode:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  
+  .episodeTitle {
     color: #ffc700;
     font-size: 1.5rem;
     margin-bottom: 10px;
-}
-
-.description {
-    color: "aliceblue";
+  }
+  
+  .description {
+    color: aliceblue;
     font-size: 1rem;
     margin-bottom: 10px;
-}
-
-/* Video Wrapper */
-.videoWrapper {
+  }
+  
+  /* Video Wrapper */
+  .videoWrapper {
     position: relative;
     padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
     max-width: 100%;
     background-color: #000;
-}
-
-.videoWrapper iframe {
+  }
+  
+  .videoWrapper iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     border-radius: 5px;
-}
-
-/* Mobile Styles */
-@media (max-width: 1024px) {
+  }
+  
+  /* Mobile Styles */
+  @media (max-width: 1024px) {
     .container {
-        margin-top: 2em;
-        margin-left: 12em;
-        padding: 15px;
+      margin-top: 2em;
+      margin-left: 12em;
+      padding: 15px;
     }
-
+  
     .title {
-        font-size: 1.8rem;
+      font-size: 1.8rem;
     }
-
+  
     .episodeTitle {
-        font-size: 1.4rem;
+      font-size: 1.4rem;
     }
-
+  
     .subtitle {
-        font-size: 1rem;
+      font-size: 1rem;
     }
-
+  
     .description {
-        font-size: 0.9rem;
+      font-size: 0.9rem;
     }
-}
-
-@media (max-width: 768px) {
+  }
+  
+  @media (max-width: 768px) {
     .container {
-        margin: 4em 1em;
-        padding: 15px;
+      margin: 4em 1em;
+      padding: 15px;
     }
-
+  
     .title {
-        font-size: 1.6rem;
+      font-size: 1.6rem;
     }
-
+  
     .episodeTitle {
-        font-size: 1.3rem;
+      font-size: 1.3rem;
     }
-}
-
-@media (max-width: 480px) {
+  }
+  
+  @media (max-width: 480px) {
     .container {
-        margin: 6em 0.5em;
-        padding: 10px;
+      margin: 6em 0.5em;
+      padding: 10px;
     }
-
+  
     .title {
-        font-size: 1.4rem;
+      font-size: 1.4rem;
     }
-
+  
     .episodeTitle {
-        font-size: 1.2rem;
+      font-size: 1.2rem;
     }
-
+  
     .subtitle {
-        font-size: 0.9rem;
+      font-size: 0.9rem;
     }
-
+  
     .description {
-        font-size: 0.85rem;
+      font-size: 0.85rem;
     }
-}
-
-@media (max-width: 360px) {
+  }
+  
+  @media (max-width: 360px) {
     .container {
-        margin: 6em 0.5em;
-        padding: 10px;
+      margin: 6em 0.5em;
+      padding: 10px;
     }
-
+  
     .title {
-        font-size: 1.4rem;
+      font-size: 1.4rem;
     }
-
+  
     .episodeTitle {
-        font-size: 1.2rem;
+      font-size: 1.2rem;
     }
-
+  
     .subtitle {
-        font-size: 0.9rem;
+      font-size: 0.9rem;
     }
-
+  
     .description {
-        font-size: 0.85rem;
+      font-size: 0.85rem;
     }
-}
+  }
+  
