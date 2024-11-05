@@ -1,46 +1,63 @@
 .instructions {
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    font-size: large;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: large;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%); /* Start slightly off-center */
+  z-index: 10;
+  opacity: 0;
+  animation: fadeInSlideUp 0.8s ease forwards; /* Add animation */
+}
+
+.instructionsbutton {
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.instructionsbutton:hover {
+  background-color: #45a049;
+}
+
+.feedbackmessage {
+  color: #ffd700;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.win-message {
+  color: #00ff00;
+  font-size: 2em;
+  text-align: center;
+  animation: bounce 1s infinite;
+}
+
+@keyframes fadeInSlideUp {
+  0% {
+      opacity: 0;
+      transform: translate(-50%, -70%);
   }
-  
-  .instructionsbutton {
-    padding: 10px 20px;
-    margin-top: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  100% {
+      opacity: 1;
+      transform: translate(-50%, -50%);
   }
-  
-  .feedbackmessage {
-    color: #ffd700;
-    text-align: center;
-    margin-top: 10px;
-  }
-  
-  .win-message {
-    color: #00ff00;
-    font-size: 2em;
-    text-align: center;
-    animation: bounce 1s infinite;
-  }
-  
-  @keyframes bounce {
-    0%, 100% {
+}
+
+@keyframes bounce {
+  0%, 100% {
       transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
   }
-  
+  50% {
+      transform: translateY(-10px);
+  }
+}
