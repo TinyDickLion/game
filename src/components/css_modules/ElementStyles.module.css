@@ -68,7 +68,7 @@
 }
 
 .red {
-    background: radial-gradient(circle, #f87171, #be123c);
+    background: radial-gradient(circle, #f14646, #a61010);
 }
 
 .orange {
@@ -80,7 +80,7 @@
 }
 
 .pink {
-    background: radial-gradient(circle, #f472b6, #be185d);
+    background: radial-gradient(circle, #ff82d1, #a83674);
 }
 
 /* Advanced element styles */
