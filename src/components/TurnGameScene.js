@@ -57,11 +57,16 @@ const TurnGameScene = () => {
       setIsAiAttacked(true);
       userMessage = `You attacked and dealt ${damage} damage!`;
     } else if (action === "defend") {
-      const heal = calculateDamage(5, 10);
-      updatedUserHealth = Math.min(userHealth + heal, 100);
-      setUserHealth(updatedUserHealth);
-      setIsUserHealed(true);
-      userMessage = `You defended and restored ${heal} health!`;
+      // Only allow healing if user health is below 100
+      if (userHealth < 100) {
+        const heal = calculateDamage(5, 10);
+        updatedUserHealth = Math.min(userHealth + heal, 100);
+        setUserHealth(updatedUserHealth);
+        setIsUserHealed(true);
+        userMessage = `You defended and restored ${heal} health!`;
+      } else {
+        userMessage = "Your health is already full!";
+      }
     }
 
     setMessage(userMessage);
@@ -85,17 +90,22 @@ const TurnGameScene = () => {
     const action = Math.random() > 0.3 ? "attack" : "defend";
 
     if (action === "attack") {
-      const damage = calculateDamage(10, 20);
+      const damage = calculateDamage(8, 20);
       updatedUserHealth = Math.max(userHealth - damage, 0);
       setUserHealth(updatedUserHealth);
       setIsUserAttacked(true);
       aiMessage = `AI attacked and dealt ${damage} damage!`;
     } else if (action === "defend") {
-      const heal = calculateDamage(3, 8);
-      updatedAiHealth = Math.min(aiHealth + heal, 100);
-      setAiHealth(updatedAiHealth);
-      setIsAiHealed(true);
-      aiMessage = `AI defended and restored ${heal} health!`;
+      // Only allow healing if AI health is below 100
+      if (aiHealth < 100) {
+        const heal = calculateDamage(3, 8);
+        updatedAiHealth = Math.min(aiHealth + heal, 100);
+        setAiHealth(updatedAiHealth);
+        setIsAiHealed(true);
+        aiMessage = `AI defended and restored ${heal} health!`;
+      } else {
+        aiMessage = "AI's health is already full!";
+      }
     }
 
     setMessage(aiMessage);
