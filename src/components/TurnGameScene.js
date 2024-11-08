@@ -90,7 +90,7 @@ const TurnGameScene = () => {
     const action = Math.random() > 0.3 ? "attack" : "defend";
 
     if (action === "attack") {
-      const damage = calculateDamage(8, 20);
+      const damage = calculateDamage(10, 20);
       updatedUserHealth = Math.max(userHealth - damage, 0);
       setUserHealth(updatedUserHealth);
       setIsUserAttacked(true);
