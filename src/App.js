@@ -11,6 +11,7 @@ import TriviaContainer from "./components/TriviaContainer";
 import PeraWalletTutorial from "./components/PeraWalletTutorial";
 import WhitePaper from "./components/WhitePaper";
 import * as THREE from "three";
+import TurnGameStart from "./components/TurnGameStart"
 
 const App = () => {
   const mountRef = useRef(null);
@@ -79,6 +80,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/match-3-mania" element={<Game />} />
           <Route path="/trivia-takedown" element={<TriviaContainer />} />
+          <Route path="/duel-arena" element={<TurnGameStart />} />
           <Route path="/rewards-game-guide" element={<GameDescription />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/learn-pera-wallet" element={<PeraWalletTutorial />} />

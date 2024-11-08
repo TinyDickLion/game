@@ -101,6 +101,17 @@ const NavBar = () => {
         </li>
         <li className={NavBarStyles.navItem}>
           <NavLink
+            to="/duel-arena"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              isActive ? NavBarStyles.activeLink : ""
+            }
+          >
+            Duel Arena
+          </NavLink>
+        </li>
+        <li className={NavBarStyles.navItem}>
+          <NavLink
             to="/leaderboard"
             onClick={closeMenu}
             className={({ isActive }) =>

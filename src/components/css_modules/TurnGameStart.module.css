@@ -1,0 +1,108 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px;
+}
+
+.storyContainer {
+  background-color: #1e1e2f;
+  padding: 4em;
+  border-radius: 10px;
+  animation: fadeIn 1s ease-in-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 0.85;
+    transform: translateY(0);
+  }
+}
+
+.storyTitle {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  animation: slideIn 1.2s ease forwards;
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.storyText {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  animation: typing 2s steps(40, end), blink 0.5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #ffffff;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  from {
+    border-color: transparent;
+  }
+  to {
+    border-color: #ffffff;
+  }
+}
+
+.startButton {
+  background-color: #1e90ff;
+  color: #ffffff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+.startButton:hover {
+  background-color: #3a8cdd;
+  transform: scale(1.05);
+}
+
+@media (max-width: 1024px) {
+  .storyContainer {
+    width: 95%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    width: 95%;
+  }
+}

@@ -1,0 +1,111 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100vh;
+  padding: 80px;
+  background: linear-gradient(135deg, #1e1e2f 30%, #12122a 100%);
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3), inset 0 0 25px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0.85;
+}
+
+.message {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: #ffeb3b;
+  text-align: center;
+  font-weight: bold;
+  animation: fadeIn 0.5s ease-in;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bgPulse {
+  0%, 100% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 20px;
+  }
+
+  .message {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding: 10px;
+  }
+}
+
+/* Particle Effects */
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffeb3b;
+  opacity: 0.8;
+  border-radius: 50%;
+  animation: particleMove 4s ease-in-out infinite;
+}
+
+@keyframes particleMove {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-200px) translateX(200px) scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-400px) translateX(-200px) scale(1);
+    opacity: 0;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .container {
+    margin-top: 4em;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin-top: 4em;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    margin-top: 4em;
+  }
+}

@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .actionButton {
+    background-color: #1e90ff;
+    color: #ffffff;
+    padding: 12px 24px;
+    margin: 0.25em;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .actionButton:hover {
+    background-color: #3a8cdd;
+    transform: scale(1.05);
+  }
+  
