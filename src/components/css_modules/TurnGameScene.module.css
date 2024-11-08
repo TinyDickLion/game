@@ -94,18 +94,18 @@
 
 @media (max-width: 1024px) {
   .container {
-    margin-top: 4em;
+    margin-top: 3em;
   }
 }
 
 @media (max-width: 768px) {
   .container {
-    margin-top: 4em;
+    margin-top: 3em;
   }
 }
 
 @media (max-width: 360px) {
   .container {
-    margin-top: 4em;
+    margin-top: 3em;
   }
 }
