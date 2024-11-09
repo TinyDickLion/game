@@ -62,7 +62,7 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
       if (heldAmount >= requiredBalance) {
         setEligibility(true);
         setFeedbackMessage(
-          `You qualify for ${rewardPercent}% reward in ${selectedToken.toUpperCase()}!`
+          `You qualify for ${rewardPercent}% reward in $${selectedToken.toUpperCase()}!`
         );
         setCurrentStep(2);
       } else {
