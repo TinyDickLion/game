@@ -1,87 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./css_modules/GameDescription.module.css";
 
 const GameDescription = () => {
+  const [selectedToken, setSelectedToken] = useState("tdld");
+
+  const tokenDetails = {
+    tdld: {
+      name: "$TDLD",
+      requirements: [
+        "Hold a minimum of 25 ALGO worth of $TDLD to earn daily rewards at a 50% APY, equating to approximately 0.13% per day.",
+        "If you hold 50 ALGO worth or more, you’ll qualify for double rewards on that day, allowing for accelerated growth of your $TDLD holdings."
+      ]
+    }
+    // Add other tokens as they are supported
+  };
+
+  const handleTokenChange = (e) => {
+    setSelectedToken(e.target.value);
+  };
+
   return (
     <div className={styles.container}>
       <section className={styles.section}>
-        <h2 className={styles.heading}>Welcome to $TDLD Rewards</h2>
+        <h2 className={styles.heading}>Token-Specific Rewards</h2>
         <p className={styles.text}>
-          Compete in fun, engaging games and win $TDLD rewards! The more you
-          play, the more you earn — with opportunities to increase your holdings
-          and unlock special bonuses. Check out the details below on how you can
-          maximize your earnings while enjoying the games!
+          Select a token below to view its specific reward requirements and benefits. Each token has unique APY and holding requirements.
+        </p>
+        <div className={styles.dropdown}>
+          <label htmlFor="tokenSelect" className={styles.label}>Choose Token:{" "}</label>
+          <select
+            id="tokenSelect"
+            value={selectedToken}
+            onChange={handleTokenChange}
+            className={styles.selectBox}
+          >
+            {Object.keys(tokenDetails).map((tokenKey) => (
+              <option key={tokenKey} value={tokenKey}>
+                {tokenDetails[tokenKey].name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.tokenDetails}>
+          <h3 className={styles.heading}>{tokenDetails[selectedToken].name} Rewards</h3>
+          <ul className={styles.requirements}>
+            {tokenDetails[selectedToken].requirements.map((req, index) => (
+              <li key={index} className={styles.text}>
+                {req}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.heading}>Compounding Rewards</h2>
+        <p className={styles.text}>
+          Earn compounding rewards as you hold tokens and play. Rewards are calculated daily based on your current balance, enabling your holdings to grow over time as you participate in our games and engage with supported tokens.
         </p>
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.heading}>$TDLD Economy</h2>
+        <h2 className={styles.heading}>Daily Participation and Limits</h2>
         <p className={styles.text}>
-          To participate in the reward system, you must hold a minimum amount of
-          $TDLD tokens equivalent to 25 ALGO in value. Rewards are calculated
-          daily, based on an APY of 50%, meaning you can earn a daily reward of
-          approximately 0.13% on your $TDLD holdings.
+          Each wallet address can claim a reward once per day, allowing you to re-engage daily.
         </p>
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.heading}>Compounding Effect</h2>
-        <p className={styles.text}>
-          As you hold $TDLD, your rewards grow over time. Each day, the 0.13%
-          reward is calculated based on your current balance, which includes any
-          rewards you've already earned. This compounding effect means that your
-          daily rewards gradually increase, simply by holding onto your $TDLD
-          tokens. The longer you hold, the more your rewards can grow!
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.heading}>Double Rewards</h2>
-        <p className={styles.text}>
-          If you hold $TDLD tokens equivalent to 50 ALGO or more, you qualify
-          for double rewards on that day! This unique bonus structure allows
-          players to maximize their rewards and increase their $TDLD holdings
-          faster.
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.heading}>Daily Participation</h2>
-        <p className={styles.text}>
-          Remember, each wallet address can only claim a reward once per day.
-          So, come back every day to play, earn points, and claim your rewards.
-          Keep track of your $TDLD holdings to maximize your earnings!
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.heading}>Daily Reward Limit</h2>
-        <p className={styles.text}>
-          Feel free to play as many games as you'd like throughout the day!
-          However, please note that each wallet address can only claim one
-          reward per day, even if you win in multiple games. Choose your best
-          performance to claim your reward, and come back tomorrow to compete
-          again!
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.heading}>Future Rewards</h2>
-        <p className={styles.text}>
-          Coming soon: We’ll be introducing weekly, monthly, and yearly rewards
-          for those who hold specific amounts of $TDLD over time. By maintaining
-          your holdings, you'll unlock even greater rewards, giving you more
-          reasons to stay engaged and earn with $TDLD!
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.heading}>Reward Structure Adjustments</h2>
+        <h2 className={styles.heading}>Flexibility for Future Adjustments</h2>
         <p className={styles.text} style={{ fontWeight: "bold" }}>
-          Please note that the reward structure may change at our discretion in
-          response to market conditions and community growth. Our goal is to
-          maintain a sustainable and engaging ecosystem for $TDLD holders, and
-          we’ll make adjustments as needed to ensure long-term value.
+          We aim to support a sustainable reward ecosystem. Reward structures may be adjusted based on feedback, market conditions, and the preferences of collaborating projects to enhance long-term value and engagement.
         </p>
       </section>
     </div>

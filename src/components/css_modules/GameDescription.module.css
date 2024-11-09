@@ -140,3 +140,61 @@
     font-size: 0.9rem;
   }
 }
+
+.selectBox {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #1c1c36, #0b0b16);
+  color: #fafafa;
+  border: 2px solid #00d8ff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  outline: none;
+  transition: all 0.3s ease;
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.5rem;
+}
+
+.selectBox:hover {
+  border-color: #ff00d8;
+  background: linear-gradient(135deg, #292945, #1c1c36);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.selectBox:focus {
+  border-color: #00ffc8;
+  box-shadow: 0 0 8px rgba(0, 255, 200, 0.5);
+}
+
+.selectBox option {
+  color: #333;
+  background: #fafafa;
+}
+
+/* Mobile-Friendly Adjustments */
+@media (max-width: 768px) {
+  .selectBox {
+    width: 60%;
+    font-size: 1rem;
+  }
+}
+/* Mobile-Friendly Adjustments */
+@media (max-width: 420px) {
+  .selectBox {
+    width: 60%;
+    font-size: 1rem;
+  }
+}
+/* Mobile-Friendly Adjustments */
+@media (max-width: 360px) {
+  .selectBox {
+    width: 60%;
+    font-size: 1rem;
+  }
+}
