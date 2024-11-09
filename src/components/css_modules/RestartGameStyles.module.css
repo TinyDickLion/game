@@ -1,12 +1,124 @@
-.restartGameWrapper {
+/* Wrapper for reward claim component */
+.rewardClaimWrapper {
     display: flex;
     flex-direction: column;
-    width: min(500px, 95vw, 95vh - 35%);
+    width: min(500px, 90vw);
     justify-content: center;
-    margin-top: 4%;
+    align-items: center;
+    background: linear-gradient(145deg, #1f1b3d, #28234e);
+    border-radius: 12px;
+    padding: 2em;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}
+
+/* Instructions and feedback messages */
+.feedbackMessage {
+    color: #f0a500;
+    font-size: 1.1rem;
+    margin-bottom: 1em;
+    text-align: center;
+    animation: fadeIn 0.4s ease-in;
+}
+
+/* Keyframes for fade-in effect */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dropdown and input styling */
+.selectBox,
+.walletInput {
+    width: 80%;
+    max-width: 400px;
+    padding: 0.8rem;
+    font-size: 1rem;
+    margin-top: 0.8rem;
+    margin-bottom: 1.2rem;
+    border: 2px solid #6e5ed7;
+    border-radius: 8px;
+    background: #28234e;
+    color: #f1e7ff;
+    transition: border-color 0.3s ease;
+}
+
+.selectBox:focus,
+.walletInput:focus {
+    border-color: #a784db;
+    outline: none;
+}
+
+.rewardInfo {
+    color: #8ae6ff;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Button styling */
+.checkButton,
+.claimButton {
+    background: linear-gradient(145deg, #6e5ed7, #4c3ebc);
+    color: #ffffff;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.checkButton:hover,
+.claimButton:hover {
+    background: #8a74e4;
+    transform: translateY(-2px);
+}
+
+.checkButton:disabled,
+.claimButton:disabled {
+    background: #5a4d91;
+    cursor: not-allowed;
+}
+
+/* Step container layout */
+.stepContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1em;
+    padding: 1em;
+}
+
+/* Title styles */
+.stepTitle {
+    font-size: 1.6rem;
+    color: #ffffff;
+    margin-bottom: 0.5em;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles for the final confirmation message */
+.instructions {
+    font-size: 1.1rem;
+    color: #8ae6ff;
+    text-align: center;
+    margin-top: 1rem;
+    animation: fadeIn 0.6s ease-in;
 }
 
 .restartGame {
+    margin-top: 0.25em;
     align-items: center;
     align-self: center;
     background-color: #FCFCFD;
@@ -24,115 +136,23 @@
     box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
     font-size: min(4.2vw, 3vh);
     -webkit-tap-highlight-color: transparent;
-    opacity: 0;
-    animation: fade-in-restart 600ms forwards ease-in;
 }
 
-@keyframes fade-in-restart {
-    0% {
-        opacity: 0;
-    }
-
-    60% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-.restartGame:active {
-    box-shadow: #D6D6E7 0 3px 7px inset;
-    transform: translateY(5%);
-}
-
-.stepContainer{
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-}
-
-.qrContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    max-width: 90%;
-    margin: 1rem auto;
-}
-
-.qrImage {
-    width: 200px;
-    height: 200px;
-    margin-bottom: 1rem;
-    border-radius: 8px;
-    border: 2px solid #e2b6ff;
-}
-
-.qrTitle {
-    font-size: 1.5rem;
-    color: #fff;
-    margin-bottom: 1rem;
-}
-
-.walletInput {
-    width: 100%;
-    max-width: 300px;
-    padding: 0.75rem;
-    font-size: 1rem;
-    margin: 1rem 0;
-    border: 2px solid #e2b6ff;
-    border-radius: 8px;
-    outline: none;
-}
-
-.walletInput:focus {
-    border-color: #a784db;
-}
-
-.claimButton {
-    background: #4c0a7b;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.claimButton:hover {
-    background: #672c9e;
-}
-
-.claimButton:disabled {
-    background: #a784db;
-    cursor: not-allowed;
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    .qrContainer {
-        padding: 0.5rem;
+    .rewardClaimWrapper {
+        width: 95vw;
+        padding: 1.5em;
     }
 
-    .qrImage {
-        width: 150px;
-        height: 150px;
-    }
-
-    .walletInput {
+    .walletInput,
+    .selectBox {
         width: 90%;
-        font-size: 0.9rem;
     }
 
+    .checkButton,
     .claimButton {
-        padding: 0.5rem 1rem;
+        padding: 0.7rem 1.8rem;
         font-size: 1rem;
     }
 }

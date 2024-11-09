@@ -5,16 +5,24 @@ import { algoIndexerClient } from "../algorand/config";
 
 const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
   const [walletAddress, setWalletAddress] = useState("");
-  const [eligilbe, setEligilbility] = useState(false);
+  const [eligible, setEligibility] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [supportedTokens, setSupportedTokens] = useState([]);
+  const [selectedToken, setSelectedToken] = useState("tdld"); // Set default to "tdld"
+  const [rewardInfo, setRewardInfo] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const API_BASE_URL = "https://tdld-api.onrender.com/api/v1";
-  const API_VESTIGE_URL =
-    "https://free-api.vestige.fi/asset/2176744157/price?currency=algo";
-  const ASSET_ID = 2176744157;
-  let minTDLDBalance = 1000000; // Minimum $TDLD balance for 25 ALGO
-  let highTDLDBalance = 2000000; // Minimum $TDLD balance for 50 ALGO
+
+  const tokenDetails = {
+    tdld: { assetId: 2176744157, minAlgoValue: 25, rewardPercent: 0.13 },
+  };
+
+  useEffect(() => {
+    setSupportedTokens(Object.keys(tokenDetails));
+    setRewardInfo(tokenDetails["tdld"]); // Set default rewardInfo to "tdld"
+  }, []);
 
   useEffect(() => {
     if (scoreCheck && walletAddress) {
@@ -22,49 +30,55 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
     }
   }, [scoreCheck, walletAddress]);
 
-  // Check the user's $TDLD balance and update required holdings
-  const checkMinimumBalance = async () => {
-    try {
-      const response = await axios.get(API_VESTIGE_URL);
-      const tdldPriceInAlgo = response.data.price;
+  const validateWalletAddress = (address) => {
+    return address.length === 58; // Example: Length validation for Algorand addresses
+  };
 
-      // Calculate minimum and high balance based on $TDLD price
-      minTDLDBalance = Math.floor(25 / tdldPriceInAlgo);
-      highTDLDBalance = Math.floor(50 / tdldPriceInAlgo);
+  const checkMinimumBalance = async () => {
+    if (!validateWalletAddress(walletAddress)) {
+      setFeedbackMessage("Invalid wallet address format.");
+      return;
+    }
+    setFeedbackMessage("");
+    setIsLoading(true);
+
+    try {
+      if (!selectedToken) return;
+      const { assetId, minAlgoValue, rewardPercent } =
+        tokenDetails[selectedToken];
+      const priceUrl = `https://free-api.vestige.fi/asset/${assetId}/price?currency=algo`;
+      const response = await axios.get(priceUrl);
+      const tokenPriceInAlgo = response.data.price;
+      const requiredBalance = Math.floor(minAlgoValue / tokenPriceInAlgo);
 
       const accountInfo = await algoIndexerClient
         .lookupAccountByID(walletAddress.toUpperCase())
         .do();
-      const tdldAsset = accountInfo?.account?.assets?.find(
-        (asset) => asset["asset-id"] === ASSET_ID
+      const asset = accountInfo?.account?.assets?.find(
+        (asset) => asset["asset-id"] === assetId
       );
-      const heldTDLDAmount = tdldAsset.amount / 1000000;
+      const heldAmount = asset ? asset.amount / 1000000 : 0;
 
-      if (tdldAsset && heldTDLDAmount >= minTDLDBalance) {
-        setEligilbility(true);
-        if (heldTDLDAmount >= highTDLDBalance) {
-          setFeedbackMessage(
-            `You have over ${highTDLDBalance} $TDLD, qualifying you for double rewards!`
-          );
-        } else {
-          setFeedbackMessage(
-            `You have at least ${minTDLDBalance} $TDLD! You can now claim your reward.`
-          );
-        }
+      if (heldAmount >= requiredBalance) {
+        setEligibility(true);
+        setFeedbackMessage(
+          `You qualify for ${rewardPercent}% reward in ${selectedToken.toUpperCase()}!`
+        );
         setCurrentStep(2);
       } else {
-        setEligilbility(false);
+        setEligibility(false);
         setFeedbackMessage(
-          `You need at least ${minTDLDBalance} $TDLD (25 ALGO worth) to claim rewards. Please acquire more and try again.`
+          `You need at least ${requiredBalance} ${selectedToken.toUpperCase()} (${minAlgoValue} ALGO worth) to claim rewards.`
         );
       }
     } catch (error) {
-      console.error("Error checking $TDLD balance:", error);
-      setFeedbackMessage("Error checking $TDLD balance. Please try again.");
+      console.error("Error checking balance:", error);
+      setFeedbackMessage("Error checking balance. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Handle reward claim process
   const handleClaimReward = async () => {
     if (!walletAddress) {
       setFeedbackMessage(
@@ -72,15 +86,16 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
       );
       return;
     }
-
     setFeedbackMessage("Processing your reward claim...");
-    setEligilbility(false);
+    setEligibility(false);
+    setIsLoading(true);
 
     try {
       const response = await axios.post(`${API_BASE_URL}/send-rewards`, {
         to: walletAddress,
         score,
-        gameName
+        gameName,
+        selectedToken,
       });
 
       if (response.data.success) {
@@ -90,74 +105,85 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
         setFeedbackMessage(response.data.message);
       }
     } catch (error) {
-      if (error?.status === 429) {
-        setFeedbackMessage(error?.response?.data?.message);
-      } else {
-        setFeedbackMessage("Failed to claim the reward. Please try again.");
-      }
+      setFeedbackMessage("Failed to claim the reward. Please try again.");
       console.error("Error claiming reward:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Handle wallet input changes
-  const handleInputChange = (e) => {
-    const newAddress = e.target.value;
-    if (`${newAddress}`.trim().length < 58) {
-      setEligilbility(false);
-    }
-    setWalletAddress(newAddress);
-
-    if (newAddress && currentStep === 1) {
-      checkMinimumBalance();
-    }
+  const handleTokenSelect = (e) => {
+    const token = e.target.value;
+    setSelectedToken(token);
+    setRewardInfo(tokenDetails[token]);
+    setEligibility(false);
+    setFeedbackMessage("");
+    setCurrentStep(1);
   };
 
   return (
     <div className={RestartGameStyles.rewardClaimWrapper}>
-      <br></br>
       <div className={RestartGameStyles.feedbackMessage}>
         {feedbackMessage && <p>{feedbackMessage}</p>}
       </div>
-      <br></br>
 
-      {/* Step 1: Check $TDLD balance */}
       {currentStep === 1 && (
         <div className={RestartGameStyles.stepContainer}>
           <h2 className={RestartGameStyles.stepTitle}>
-          Please Enter Wallet Address to Check $TDLD Balance and Claim Your Reward
+            Select a Supported Token
           </h2>
-          <input
-            type="text"
-            placeholder="Enter your wallet address"
-            value={walletAddress}
-            onChange={handleInputChange}
-            className={RestartGameStyles.walletInput}
-          />
-        </div>
-      )}
-
-      {/* Step 2: Claim reward */}
-      {currentStep === 2 && (
-        <div className={RestartGameStyles.stepContainer}>
-          <h2 className={RestartGameStyles.stepTitle}>Claim Your Reward</h2>
-          <input
-            type="text"
-            placeholder="Re-enter your wallet address"
-            value={walletAddress}
-            onChange={handleInputChange}
-            className={RestartGameStyles.walletInput}
-          />
-          <button
-            className={RestartGameStyles.claimButton}
-            disabled={!eligilbe}
-            onClick={handleClaimReward}
+          <select
+            onChange={handleTokenSelect}
+            value={selectedToken}
+            className={RestartGameStyles.selectBox}
           >
-            Claim Reward
+            {supportedTokens.map((token) => (
+              <option key={token} value={token}>
+                ${token.toUpperCase()}
+              </option>
+            ))}
+          </select>
+
+          {rewardInfo && (
+            <p className={RestartGameStyles.rewardInfo}>
+              For holding {rewardInfo.minAlgoValue} ALGO worth of $
+              {selectedToken.toUpperCase()}, you can claim{" "}
+              {rewardInfo.rewardPercent}% in ${selectedToken.toUpperCase()}.
+            </p>
+          )}
+
+          {selectedToken && (
+            <input
+              type="text"
+              placeholder="Enter your wallet address"
+              value={walletAddress}
+              onChange={(e) => setWalletAddress(e.target.value)}
+              className={RestartGameStyles.walletInput}
+            />
+          )}
+          <button
+            onClick={checkMinimumBalance}
+            className={RestartGameStyles.checkButton}
+            disabled={isLoading}
+          >
+            {isLoading ? "Checking..." : "Check Eligibility"}
           </button>
         </div>
       )}
 
-      {/* Step 3: Confirmation */}
+      {currentStep === 2 && (
+        <div className={RestartGameStyles.stepContainer}>
+          <h2 className={RestartGameStyles.stepTitle}>Claim Your Reward</h2>
+          <button
+            onClick={handleClaimReward}
+            className={RestartGameStyles.claimButton}
+            disabled={!eligible || isLoading}
+          >
+            {isLoading ? "Processing..." : "Claim Reward"}
+          </button>
+        </div>
+      )}
+
       {currentStep === 3 && (
         <div className={RestartGameStyles.stepContainer}>
           <h2 className={RestartGameStyles.stepTitle}>Reward Claimed!</h2>
