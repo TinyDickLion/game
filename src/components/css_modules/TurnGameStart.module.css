@@ -96,13 +96,13 @@
 }
 
 @media (max-width: 768px) {
-  .container {
+  .storyContainer {
     width: 95%;
   }
 }
 
 @media (max-width: 360px) {
-  .container {
+  .storyContainer {
     width: 95%;
   }
 }
