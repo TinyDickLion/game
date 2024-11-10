@@ -8,9 +8,9 @@ const GameDescription = () => {
     tdld: {
       name: "$TDLD",
       requirements: [
-        "Hold $TDLD in your wallet for at least 12 hours without any recent incoming transfers.",
-        "Hold a minimum of 25 ALGO worth of $TDLD to earn daily rewards at 50% APY (0.13% per day).",
-        "Holding 50 ALGO worth or more qualifies you for double rewards, boosting your $TDLD holdings.",
+        "Hold $TDLD in your wallet for at least 12 hours without any recent incoming $TDLD token transfers.",
+        "Maintain a minimum of 25 ALGO worth of $TDLD to earn daily rewards at 50% APY (approximately 0.13% per day).",
+        "Holding 50 ALGO worth or more qualifies you for double rewards, accelerating your $TDLD holdings growth.",
       ],
     },
   };
@@ -61,7 +61,7 @@ const GameDescription = () => {
       <section className={styles.section}>
         <h2 className={styles.heading}>Eligibility</h2>
         <p className={styles.text}>
-          To qualify, hold the required amount of tokens for 12 consecutive hours without incoming transfers. This helps ensure rewards go to stable token holders.
+          To qualify, hold the required amount of tokens for 12 consecutive hours without any recent incoming transfers of the selected token. This ensures rewards go to stable token holders.
         </p>
       </section>
 
