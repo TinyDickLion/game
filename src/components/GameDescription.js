@@ -8,9 +8,9 @@ const GameDescription = () => {
     tdld: {
       name: "$TDLD",
       requirements: [
-        "Hold $TDLD for atleast 12 hrs continuously in your wallet address",
-        "Hold a minimum of 25 ALGO worth of $TDLD to earn daily rewards at a 50% APY, equating to approximately 0.13% per day.",
-        "If you hold 50 ALGO worth or more, you’ll qualify for double rewards on that day, allowing for accelerated growth of your $TDLD holdings.",
+        "Hold $TDLD in your wallet address continuously for at least 12 hours with no recent incoming transfers.",
+        "Maintain a minimum of 25 ALGO worth of $TDLD to qualify for daily rewards at a 50% APY, equating to approximately 0.13% per day.",
+        "Holding 50 ALGO worth or more qualifies you for double rewards, allowing for accelerated growth of your $TDLD holdings.",
       ],
     },
     // Add other tokens as they are supported
@@ -26,7 +26,7 @@ const GameDescription = () => {
         <h2 className={styles.heading}>Token-Specific Rewards</h2>
         <p className={styles.text}>
           Select a token below to view its specific reward requirements and
-          benefits. Each token has unique APY and holding requirements.
+          benefits. Each token has unique APY and holding requirements, along with specific eligibility criteria.
         </p>
         <div className={styles.dropdown}>
           <label htmlFor="tokenSelect" className={styles.label}>
@@ -61,6 +61,13 @@ const GameDescription = () => {
       </section>
 
       <section className={styles.section}>
+        <h2 className={styles.heading}>Eligibility Requirement</h2>
+        <p className={styles.text}>
+          To qualify for a reward, your account must hold the required amount of the selected token for at least 12 consecutive hours without any recent incoming transfers during this period. This ensures that only accounts with stable holdings are eligible to claim rewards.
+        </p>
+      </section>
+
+      <section className={styles.section}>
         <h2 className={styles.heading}>Compounding Rewards</h2>
         <p className={styles.text}>
           Earn compounding rewards as you hold tokens and play. Rewards are
@@ -73,8 +80,8 @@ const GameDescription = () => {
       <section className={styles.section}>
         <h2 className={styles.heading}>Daily Participation and Limits</h2>
         <p className={styles.text}>
-          Each wallet address can claim a reward once per day, allowing you to
-          re-engage daily.
+          Each wallet address can claim a reward once per day, ensuring daily
+          engagement and participation.
         </p>
       </section>
 
