@@ -105,8 +105,12 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
         setFeedbackMessage(response.data.message);
       }
     } catch (error) {
-      setFeedbackMessage("Failed to claim the reward. Please try again.");
-      console.error("Error claiming reward:", error);
+      if (error?.response?.data?.message?.length > 0) {
+        setFeedbackMessage(error?.response?.data?.message);
+      } else {
+        setFeedbackMessage("Failed to claim the reward. Please try again.");
+        console.error("Error claiming reward:", error);
+      }
     } finally {
       setIsLoading(false);
     }
