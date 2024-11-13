@@ -198,27 +198,35 @@ const TicTacToe = () => {
           <div className={styles.info}>
             {winner ? (
               <>
-                <h2 style={{ color: "white" }}>
+                <h2 className={styles.winnerText}>
                   {winner === "Draw" ? "It's a Draw!" : `Winner: ${winner}`}
                 </h2>
-                <button onClick={resetRound} className={styles.resetButton}>
+                <button onClick={resetRound} className={styles.nextRoundButton}>
                   Next Round (Coin Flip)
                 </button>
-                <br></br>
-                <br></br>
               </>
             ) : (
-              <h2 style={{ color: "white" }}>
+              <h2 className={styles.nextPlayerText}>
                 Next Player: {isXNext ? "X" : "O (AI)"}
               </h2>
             )}
-            <div>
-              <p style={{ color: "white" }}>Player Wins: {playerWins}</p>
-              <p style={{ color: "white" }}>AI Wins: {aiWins}</p>
-              <p style={{ color: "white" }}>
-                Rounds Played: {roundCount} / {maxRounds}
+            <div className={styles.scoreBoard}>
+              <p>
+                Player Wins:
+                <span className={styles.playerScore}>{playerWins}</span>
               </p>
+              <p>
+                AI Wins: <span className={styles.aiScore}>{aiWins}</span>
+              </p>
+              <br></br>
+              <br></br>
             </div>
+            <p>
+              Rounds Played:
+              <span className={styles.roundCount}>
+                {roundCount} / {maxRounds}
+              </span>
+            </p>
           </div>
         </>
       )}

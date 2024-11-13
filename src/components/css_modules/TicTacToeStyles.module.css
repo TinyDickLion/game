@@ -39,8 +39,63 @@
 }
 
 .info {
+    background: linear-gradient(135deg, #2a2a72, #009ffd);
+    padding: 1.5em;
+    margin-top: 1em;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
+    color: #ffffff;
 }
+
+.winnerText {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #ffcc00;
+    margin-bottom: 0.25em;
+}
+
+.nextPlayerText {
+    font-size: 1.5em;
+    color: #e0e0e0;
+    margin-bottom: 0.8em;
+}
+
+.scoreBoard {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1em;
+    font-size: 1.2em;
+}
+
+.scoreBoard p {
+    margin: 0;
+}
+
+.playerScore,
+.aiScore,
+.roundCount {
+    font-weight: bold;
+    margin: 0.5em;
+}
+
+.nextRoundButton {
+    background: #ffcc00;
+    color: #1e1e1e;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 0.6em 1.2em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 0.25em;
+}
+
+.nextRoundButton:hover {
+    background: #ffdd33;
+}
+
 
 .resetButton {
     margin-top: 10px;
