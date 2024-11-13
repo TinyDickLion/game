@@ -138,6 +138,7 @@ const TicTacToe = () => {
       {!showGame ? (
         <div className={styles.coinFlipContainer}>
           <h1 style={{ color: "white" }}>Coin Flip: Who Goes First?</h1>
+          <h2 style={{ color: "white" }}>(Best of 5, draw goes to the AI)</h2>
           <div
             className={`${styles.coin} ${coinFlipping ? styles.flipping : ""}`}
             onClick={initiateCoinFlip}
@@ -168,7 +169,6 @@ const TicTacToe = () => {
               }}
             >
               <h2 style={{ color: "white" }}>AI Wins the Best of Five!</h2>
-              <h2 style={{ color: "white" }}>( Draw counts as AI WIN )</h2>
               <br></br>
               <button onClick={resetGame} className={styles.playAgainButton}>
                 Play Again
