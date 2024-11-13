@@ -200,12 +200,18 @@
 /* Mobile-Friendly Adjustments */
 @media (max-width: 768px) {
     .container {
-        margin-top: 14em !important;
+        margin-top: 12em !important;
     }
 }
 
 @media (max-width: 480px) {
     .container {
-        margin-top: 12em !important;
+        margin-top: 8em !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        margin-top: 4em !important;
     }
 }
