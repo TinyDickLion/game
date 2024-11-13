@@ -1,0 +1,156 @@
+.container {
+    margin-top: 8em !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.cell:hover {
+    background-color: #ddd;
+}
+
+.x {
+    color: #ff4c4c;
+}
+
+.o {
+    color: #4c89ff;
+}
+
+.info {
+    text-align: center;
+}
+
+.resetButton {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.resetButton:hover {
+    background-color: #555;
+}
+
+.coinFlipContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #1e90ff, #5f00cc);
+    padding: 3em 2em;
+    opacity: 0.9;
+    border-radius: 15px;
+    /* Rounded corners */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+    /* Subtle shadow for depth */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.coinFlipContainer:hover {
+    opacity: 1;
+    transform: translateY(-5px);
+    /* Adds slight hover effect */
+}
+
+
+.coin {
+    width: 100px;
+    height: 100px;
+    margin: 20px 0;
+    background-color: #88ccff;
+    /* One side of the coin */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.flipping {
+    animation: flip 1s infinite;
+}
+
+.playAgainButton {
+    margin-top: 0.25em;
+    align-items: center;
+    align-self: center;
+    background-color: #FCFCFD;
+    border-radius: 4px;
+    border-width: 0;
+    color: rgb(84, 0, 139);
+    cursor: pointer;
+    font-family: "JetBrains Mono", monospace;
+    min-width: 30%;
+    padding: 2%;
+    justify-content: center;
+    text-decoration: none;
+    transition: box-shadow .15s, transform .15s;
+    will-change: box-shadow, transform;
+    box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+    font-size: min(4.2vw, 3vh);
+    -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateY(0deg);
+        background-color: #88ccff;
+        /* Light blue */
+    }
+
+    50% {
+        transform: rotateY(180deg);
+        background-color: #ffcc88;
+        /* Light orange */
+    }
+
+    100% {
+        transform: rotateY(360deg);
+        background-color: #88ccff;
+        /* Light blue */
+    }
+}
+
+/* Mobile-Friendly Adjustments */
+@media (max-width: 768px) {
+    .container {
+        margin-top: 14em !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin-top: 12em !important;
+    }
+}

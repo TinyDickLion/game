@@ -90,6 +90,17 @@ const NavBar = () => {
         </li>
         <li className={NavBarStyles.navItem}>
           <NavLink
+            to="/tic-tac-toe"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              isActive ? NavBarStyles.activeLink : ""
+            }
+          >
+            Tic Tac Toe
+          </NavLink>
+        </li>
+        <li className={NavBarStyles.navItem}>
+          <NavLink
             to="/trivia-takedown"
             onClick={closeMenu}
             className={({ isActive }) =>
