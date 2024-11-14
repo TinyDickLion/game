@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import RestartGameStyles from "./css_modules/RestartGameStyles.module.css";
 import { algoIndexerClient } from "../algorand/config";
+
+import TokenSelectionStep from "./TokenSelectionStep";
+import ClaimRewardStep from "./ClaimRewardStep";
+import RewardClaimedStep from "./RewardClaimedStep";
+
+import RestartGameStyles from "./css_modules/RestartGameStyles.module.css";
 
 const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
   const [walletAddress, setWalletAddress] = useState("");
@@ -9,7 +14,7 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [supportedTokens, setSupportedTokens] = useState([]);
-  const [selectedToken, setSelectedToken] = useState("tdld"); // Set default to "tdld"
+  const [selectedToken, setSelectedToken] = useState("tdld");
   const [rewardInfo, setRewardInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,21 +22,52 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
 
   const tokenDetails = {
     tdld: { assetId: 2176744157, minAlgoValue: 25, rewardPercent: 0.13 },
+    bwom: { assetId: 2328010867, minBwomLPValue: 6.9, rewardPercent: 6.9 },
   };
+  const bwomStartDate = new Date("2024-11-14");
 
+  // Set supported tokens and default reward info on mount
   useEffect(() => {
     setSupportedTokens(Object.keys(tokenDetails));
-    setRewardInfo(tokenDetails["tdld"]); // Set default rewardInfo to "tdld"
+    setRewardInfo(tokenDetails["tdld"]);
   }, []);
 
+  // Update reward info for BWOM token dynamically
   useEffect(() => {
-    if (scoreCheck && walletAddress) {
-      checkMinimumBalance();
-    }
+    if (selectedToken === "bwom") updateDynamicBwomReward();
+    else setRewardInfo(tokenDetails[selectedToken]);
+  }, [selectedToken]);
+
+  // Check minimum balance if scoreCheck or walletAddress changes
+  useEffect(() => {
+    if (scoreCheck && walletAddress) checkMinimumBalance();
   }, [scoreCheck, walletAddress]);
 
-  const validateWalletAddress = (address) => {
-    return address.length === 58; // Example: Length validation for Algorand addresses
+  const calculateDynamicRewardPercent = () => {
+    const daysSinceStart = Math.floor(
+      (Date.now() - bwomStartDate) / (1000 * 60 * 60 * 24)
+    );
+    const reductions = Math.floor(daysSinceStart / 2);
+    return Math.max(
+      0,
+      tokenDetails.bwom.rewardPercent - reductions * 0.46
+    ).toFixed(2);
+  };
+
+  const updateDynamicBwomReward = () => {
+    setRewardInfo({
+      ...tokenDetails.bwom,
+      rewardPercent: calculateDynamicRewardPercent(),
+    });
+  };
+
+  const validateWalletAddress = (address) => address.length === 58;
+
+  const fetchTokenPriceInAlgo = async (assetId) => {
+    const response = await axios.get(
+      `https://free-api.vestige.fi/asset/${assetId}/price?currency=algo`
+    );
+    return response.data.price;
   };
 
   const checkMinimumBalance = async () => {
@@ -43,13 +79,14 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
     setIsLoading(true);
 
     try {
-      if (!selectedToken) return;
-      const { assetId, minAlgoValue, rewardPercent } =
+      const { assetId, minAlgoValue, minBwomLPValue } =
         tokenDetails[selectedToken];
-      const priceUrl = `https://free-api.vestige.fi/asset/${assetId}/price?currency=algo`;
-      const response = await axios.get(priceUrl);
-      const tokenPriceInAlgo = response.data.price;
-      const requiredBalance = Math.floor(minAlgoValue / tokenPriceInAlgo);
+      const tokenPriceInAlgo =
+        selectedToken === "tdld" ? await fetchTokenPriceInAlgo(assetId) : null;
+      const requiredBalance =
+        selectedToken === "tdld"
+          ? Math.floor(minAlgoValue / tokenPriceInAlgo)
+          : minBwomLPValue;
 
       const accountInfo = await algoIndexerClient
         .lookupAccountByID(walletAddress.toUpperCase())
@@ -62,13 +99,15 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
       if (heldAmount >= requiredBalance) {
         setEligibility(true);
         setFeedbackMessage(
-          `You qualify for ${rewardPercent}% reward in $${selectedToken.toUpperCase()}!`
+          `You qualify for reward in $${selectedToken.toUpperCase()}!`
         );
         setCurrentStep(2);
       } else {
         setEligibility(false);
         setFeedbackMessage(
-          `You need at least ${requiredBalance} ${selectedToken.toUpperCase()} (${minAlgoValue} ALGO worth) to claim rewards.`
+          selectedToken === "tdld"
+            ? `You need to hold at least ${requiredBalance} ${selectedToken.toUpperCase()} to qualify for the reward.`
+            : `You need to hold at least ${requiredBalance} ${selectedToken.toUpperCase()}/ALGO LP tokens to qualify for the reward.`
         );
       }
     } catch (error) {
@@ -93,24 +132,16 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/send-rewards`, {
         to: walletAddress,
-        score,
-        gameName,
         selectedToken,
       });
-
-      if (response.data.success) {
-        setFeedbackMessage(response.data.message);
-        setCurrentStep(3);
-      } else {
-        setFeedbackMessage(response.data.message);
-      }
+      setFeedbackMessage(response.data.message);
+      setCurrentStep(response.data.success ? 3 : 1);
     } catch (error) {
-      if (error?.response?.data?.message?.length > 0) {
-        setFeedbackMessage(error?.response?.data?.message);
-      } else {
-        setFeedbackMessage("Failed to claim the reward. Please try again.");
-        console.error("Error claiming reward:", error);
-      }
+      const errorMessage =
+        error?.response?.data?.message ||
+        "Failed to claim the reward. Please try again.";
+      setFeedbackMessage(errorMessage);
+      console.error("Error claiming reward:", error);
     } finally {
       setIsLoading(false);
     }
@@ -132,70 +163,27 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
       </div>
 
       {currentStep === 1 && (
-        <div className={RestartGameStyles.stepContainer}>
-          <h2 className={RestartGameStyles.stepTitle}>
-            Select a Supported Token
-          </h2>
-          <select
-            onChange={handleTokenSelect}
-            value={selectedToken}
-            className={RestartGameStyles.selectBox}
-          >
-            {supportedTokens.map((token) => (
-              <option key={token} value={token}>
-                ${token.toUpperCase()}
-              </option>
-            ))}
-          </select>
-
-          {rewardInfo && (
-            <p className={RestartGameStyles.rewardInfo}>
-              For holding {rewardInfo.minAlgoValue} ALGO worth of $
-              {selectedToken.toUpperCase()}, you can claim{" "}
-              {rewardInfo.rewardPercent}% in ${selectedToken.toUpperCase()}.
-            </p>
-          )}
-
-          {selectedToken && (
-            <input
-              type="text"
-              placeholder="Enter your wallet address"
-              value={walletAddress}
-              onChange={(e) => setWalletAddress(e.target.value)}
-              className={RestartGameStyles.walletInput}
-            />
-          )}
-          <button
-            onClick={checkMinimumBalance}
-            className={RestartGameStyles.checkButton}
-            disabled={isLoading}
-          >
-            {isLoading ? "Checking..." : "Check Eligibility"}
-          </button>
-        </div>
+        <TokenSelectionStep
+          supportedTokens={supportedTokens}
+          selectedToken={selectedToken}
+          rewardInfo={rewardInfo}
+          handleTokenSelect={handleTokenSelect}
+          walletAddress={walletAddress}
+          setWalletAddress={setWalletAddress}
+          checkMinimumBalance={checkMinimumBalance}
+          isLoading={isLoading}
+        />
       )}
 
       {currentStep === 2 && (
-        <div className={RestartGameStyles.stepContainer}>
-          <h2 className={RestartGameStyles.stepTitle}>Claim Your Reward</h2>
-          <button
-            onClick={handleClaimReward}
-            className={RestartGameStyles.claimButton}
-            disabled={!eligible || isLoading}
-          >
-            {isLoading ? "Processing..." : "Claim Reward"}
-          </button>
-        </div>
+        <ClaimRewardStep
+          handleClaimReward={handleClaimReward}
+          eligible={eligible}
+          isLoading={isLoading}
+        />
       )}
 
-      {currentStep === 3 && (
-        <div className={RestartGameStyles.stepContainer}>
-          <h2 className={RestartGameStyles.stepTitle}>Reward Claimed!</h2>
-          <p className={RestartGameStyles.instructions}>
-            Check your wallet for the reward. Thank you for participating!
-          </p>
-        </div>
-      )}
+      {currentStep === 3 && <RewardClaimedStep />}
     </div>
   );
 };

@@ -13,6 +13,14 @@ const GameDescription = () => {
         "Holding 50 ALGO worth or more qualifies you for double rewards, accelerating your $TDLD holdings growth.",
       ],
     },
+    bwom: {
+      name: "$BWOM",
+      requirements: [
+        "Hold $BWOM/ALGO LP in your wallet for at least 12 hours without any recent incoming $BWOM/ALGO LP token transfers.",
+        "Maintain a minimum of 6.9 $BWOM/$ALGO Tinyman LP to earn daily rewards",
+        "Claim rewards once per day per wallet address",
+      ],
+    },
   };
 
   const handleTokenChange = (e) => {
@@ -66,9 +74,9 @@ const GameDescription = () => {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.heading}>Compounding Rewards</h2>
+        <h2 className={styles.heading}>Compounding Rewards For $TDLD</h2>
         <p className={styles.text}>
-          Rewards are calculated daily based on your balance, allowing your holdings to grow as you participate in games and engage with supported tokens.
+          Rewards for $TDLD are calculated daily based on your balance, allowing your holdings to grow as you participate in games and engage with supported tokens.
         </p>
       </section>
 
