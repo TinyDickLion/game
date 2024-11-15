@@ -51,7 +51,7 @@ const Game = () => {
           Score 100 points to Win
         </h1>
       ) : (
-        <h1 style={{ color: "aqua" }}>You Win!</h1>
+        <></>
       )}
       {score < winningScore ? (
         <>
