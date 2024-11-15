@@ -8,7 +8,7 @@ const GameDescription = () => {
     tdld: {
       name: "$TDLD",
       requirements: [
-        "Hold $TDLD in your wallet for at least 12 hours without any recent incoming $TDLD token transfers.",
+        "Hold $TDLD in your wallet for at least 16 hours without any recent incoming $TDLD token transfers.",
         "Maintain a minimum of 25 ALGO worth of $TDLD to earn daily rewards at 50% APY (approximately 0.13% per day).",
         "Holding 50 ALGO worth or more qualifies you for double rewards, accelerating your $TDLD holdings growth.",
       ],
@@ -16,7 +16,7 @@ const GameDescription = () => {
     bwom: {
       name: "$BWOM",
       requirements: [
-        "Hold $BWOM/ALGO LP in your wallet for at least 12 hours without any recent incoming $BWOM/ALGO LP token transfers.",
+        "Hold $BWOM/ALGO LP in your wallet for at least 16 hours without any recent incoming $BWOM/ALGO LP token transfers.",
         "Maintain a minimum of 6.9 $BWOM/$ALGO Tinyman LP to earn daily rewards",
         "Claim rewards once per day per wallet address",
       ],
