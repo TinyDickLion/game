@@ -32,10 +32,16 @@ const TokenSelectionStep = ({
             {selectedToken.toUpperCase()}, you can claim{" "}
             {rewardInfo.rewardPercent}% in ${selectedToken.toUpperCase()}.
           </>
+        ) : rewardInfo.minBwomLPValue ? (
+          <>
+            For holding {rewardInfo.minBwomLPValue} $BWOM/ALGO Tinyman LP
+            Tokens, you can claim {rewardInfo.rewardPercent}% in $
+            {selectedToken.toUpperCase()}.
+          </>
         ) : (
           <>
-            For holding {rewardInfo.minBwomLPValue} $BWOM/ALGO Tinyman LP, you
-            can claim {rewardInfo.rewardPercent}% in $
+            For holding {rewardInfo.minTLPLPValue} $TLP/ALGO Tinyman LP Tokens,
+            you can claim {rewardInfo.rewardPercent}% in $
             {selectedToken.toUpperCase()}.
           </>
         )}

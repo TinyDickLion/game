@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { algoIndexerClient } from "../algorand/config";
+import React, { useState, useEffect, useCallback } from "react";
+
+import { checkMinimumBalance } from "../business/checkMinimumBalance";
+import {
+  calculateDynamicBwomRewardPercent,
+  calculateDynamicRearRewardPercent,
+} from "../business/calculateDynamicRewardPercent";
+import { claimReward } from "../business/claimReward";
 
 import TokenSelectionStep from "./TokenSelectionStep";
 import ClaimRewardStep from "./ClaimRewardStep";
 import RewardClaimedStep from "./RewardClaimedStep";
-
 import RestartGameStyles from "./css_modules/RestartGameStyles.module.css";
 
 const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
@@ -23,8 +27,10 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
   const tokenDetails = {
     tdld: { assetId: 2176744157, minAlgoValue: 25, rewardPercent: 0.13 },
     bwom: { assetId: 2328010867, minBwomLPValue: 6.9, rewardPercent: 6.9 },
+    rear: { assetId: 1036120453, minTLPLPValue: 5, rewardPercent: 2 },
   };
   const bwomStartDate = new Date("2024-11-14");
+  const rearStartDate = new Date("2024-11-22");
 
   // Set supported tokens and default reward info on mount
   useEffect(() => {
@@ -34,117 +40,68 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
 
   // Update reward info for BWOM token dynamically
   useEffect(() => {
-    if (selectedToken === "bwom") updateDynamicBwomReward();
-    else setRewardInfo(tokenDetails[selectedToken]);
+    if (selectedToken === "bwom") {
+      updateDynamicBwomReward();
+    } else if (selectedToken === "rear") {
+      updateDynamicRearReward();
+    } else {
+      setRewardInfo(tokenDetails[selectedToken]);
+    }
   }, [selectedToken]);
 
   // Check minimum balance if scoreCheck or walletAddress changes
-  useEffect(() => {
-    if (scoreCheck && walletAddress) checkMinimumBalance();
-  }, [scoreCheck, walletAddress]);
+  useCallback(() => {
+    const timeout = setTimeout(() => {
+      if (scoreCheck && walletAddress) {
+        handleCheckMinimumBalance();
+      }
+    }, 500);
 
-  const calculateDynamicRewardPercent = () => {
-    const daysSinceStart = Math.floor(
-      (Date.now() - bwomStartDate) / (1000 * 60 * 60 * 24)
-    );
-    const reductions = Math.floor(daysSinceStart / 2);
-    return Math.max(
-      0,
-      tokenDetails.bwom.rewardPercent - reductions * 0.46
-    ).toFixed(2);
-  };
+    return () => clearTimeout(timeout);
+  }, [scoreCheck, walletAddress]);
 
   const updateDynamicBwomReward = () => {
     setRewardInfo({
       ...tokenDetails.bwom,
-      rewardPercent: calculateDynamicRewardPercent(),
+      rewardPercent: calculateDynamicBwomRewardPercent(
+        bwomStartDate,
+        tokenDetails
+      ),
     });
   };
 
-  const validateWalletAddress = (address) => address.length === 58;
-
-  const fetchTokenPriceInAlgo = async (assetId) => {
-    const response = await axios.get(
-      `https://free-api.vestige.fi/asset/${assetId}/price?currency=algo`
-    );
-    return response.data.price;
+  const updateDynamicRearReward = () => {
+    setRewardInfo({
+      ...tokenDetails.rear,
+      rewardPercent: calculateDynamicRearRewardPercent(
+        rearStartDate,
+        tokenDetails
+      ),
+    });
   };
 
-  const checkMinimumBalance = async () => {
-    if (!validateWalletAddress(walletAddress)) {
-      setFeedbackMessage("Invalid wallet address format.");
-      return;
-    }
-    setFeedbackMessage("");
-    setIsLoading(true);
-
-    try {
-      const { assetId, minAlgoValue, minBwomLPValue } =
-        tokenDetails[selectedToken];
-      const tokenPriceInAlgo =
-        selectedToken === "tdld" ? await fetchTokenPriceInAlgo(assetId) : null;
-      const requiredBalance =
-        selectedToken === "tdld"
-          ? Math.floor(minAlgoValue / tokenPriceInAlgo)
-          : minBwomLPValue;
-
-      const accountInfo = await algoIndexerClient
-        .lookupAccountByID(walletAddress.toUpperCase())
-        .do();
-      const asset = accountInfo?.account?.assets?.find(
-        (asset) => asset["asset-id"] === assetId
-      );
-      const heldAmount = asset ? asset.amount / 1000000 : 0;
-
-      if (heldAmount >= requiredBalance) {
-        setEligibility(true);
-        setFeedbackMessage(
-          `You qualify for reward in $${selectedToken.toUpperCase()}!`
-        );
-        setCurrentStep(2);
-      } else {
-        setEligibility(false);
-        setFeedbackMessage(
-          selectedToken === "tdld"
-            ? `You need to hold at least ${requiredBalance} ${selectedToken.toUpperCase()} to qualify for the reward.`
-            : `You need to hold at least ${requiredBalance} ${selectedToken.toUpperCase()}/ALGO LP tokens to qualify for the reward.`
-        );
-      }
-    } catch (error) {
-      console.error("Error checking balance:", error);
-      setFeedbackMessage("Error checking balance. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+  const handleCheckMinimumBalance = () => {
+    checkMinimumBalance({
+      walletAddress,
+      selectedToken,
+      tokenDetails,
+      setEligibility,
+      setFeedbackMessage,
+      setCurrentStep,
+      setIsLoading,
+    });
   };
 
   const handleClaimReward = async () => {
-    if (!walletAddress) {
-      setFeedbackMessage(
-        "Please enter your wallet address to claim the reward."
-      );
-      return;
-    }
-    setFeedbackMessage("Processing your reward claim...");
-    setEligibility(false);
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post(`${API_BASE_URL}/send-rewards`, {
-        to: walletAddress,
-        selectedToken,
-      });
-      setFeedbackMessage(response.data.message);
-      setCurrentStep(response.data.success ? 3 : 1);
-    } catch (error) {
-      const errorMessage =
-        error?.response?.data?.message ||
-        "Failed to claim the reward. Please try again.";
-      setFeedbackMessage(errorMessage);
-      console.error("Error claiming reward:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    await claimReward({
+      API_BASE_URL,
+      walletAddress,
+      selectedToken,
+      setFeedbackMessage,
+      setEligibility,
+      setIsLoading,
+      setCurrentStep,
+    });
   };
 
   const handleTokenSelect = (e) => {
@@ -170,7 +127,7 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
           handleTokenSelect={handleTokenSelect}
           walletAddress={walletAddress}
           setWalletAddress={setWalletAddress}
-          checkMinimumBalance={checkMinimumBalance}
+          checkMinimumBalance={handleCheckMinimumBalance}
           isLoading={isLoading}
         />
       )}
