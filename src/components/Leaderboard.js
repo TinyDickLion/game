@@ -52,6 +52,7 @@ const Leaderboard = () => {
   return (
     <div className={LeaderboardStyles.container}>
       <h1 className={LeaderboardStyles.title}>Weekly Leaders</h1>
+      {/* <h3 className={LeaderboardStyles.title}>(Top Ten)</h3> */}
       <div className={LeaderboardStyles.scrollContainer}>
         <table className={LeaderboardStyles.table}>
           <thead>
@@ -63,10 +64,20 @@ const Leaderboard = () => {
           </thead>
           <tbody>
             {leaderboard.map((player) => (
-              <tr key={player.walletAddress} className={LeaderboardStyles.tableRow}>
+              <tr
+                key={player.walletAddress}
+                className={LeaderboardStyles.tableRow}
+              >
                 <td>{player.rank}</td>
                 <td className={LeaderboardStyles.playerName}>
-                  {formatPlayerAddress(player.walletAddress)}
+                  <a
+                    href={`https://allo.info/account/${player?.walletAddress}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={LeaderboardStyles.link}
+                  >
+                    {formatPlayerAddress(player.walletAddress)}
+                  </a>
                 </td>
                 <td>{player.points}</td>
               </tr>
