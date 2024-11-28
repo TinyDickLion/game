@@ -23,10 +23,12 @@ export const checkMinimumBalance = async ({
     const { assetId, minAlgoValue, minBwomLPValue, minTLPLPValue } =
       tokenDetails[selectedToken];
     const tokenPriceInAlgo =
-      selectedToken === "tdld" ? await fetchTokenPriceInAlgo(assetId) : null;
+      selectedToken === "tdld" || selectedToken === "cat"
+        ? await fetchTokenPriceInAlgo(assetId)
+        : null;
 
     let requiredBalance;
-    if (selectedToken === "tdld") {
+    if (selectedToken === "tdld" || selectedToken === "cat") {
       requiredBalance = Math.floor(minAlgoValue / tokenPriceInAlgo);
     } else if (selectedToken === "rear") {
       requiredBalance = minTLPLPValue;
@@ -51,7 +53,7 @@ export const checkMinimumBalance = async ({
     } else {
       setEligibility(false);
       setFeedbackMessage(
-        selectedToken === "tdld"
+        selectedToken === "tdld" || selectedToken === "cat"
           ? `You need to hold at least ${requiredBalance} ${selectedToken.toUpperCase()} to qualify for the reward.`
           : selectedToken === "rear"
           ? `You need to hold at least ${requiredBalance} TLP/ALGO LP to qualify for the reward.`

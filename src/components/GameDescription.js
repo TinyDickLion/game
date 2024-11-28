@@ -29,6 +29,13 @@ const GameDescription = () => {
         "Claim rewards once per day per wallet address",
       ],
     },
+    cat: {
+      name: "$CAT",
+      requirements: [
+        "Hold $CAT in your wallet for at least 16 hours without any recent incoming $CAT token transfers.",
+        "Maintain a minimum of 25 ALGO worth of $CAT to earn daily rewards in $CAT."
+      ],
+    },
   };
 
   const handleTokenChange = (e) => {

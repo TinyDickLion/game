@@ -93,17 +93,6 @@ const Game = () => {
           />
         </div>
       )}
-
-      {score >= winningScore ? (
-        <RestartGame
-          resetBoard={setBoard}
-          resetScore={setScore}
-          resetJokers={dispatchJokerAction}
-          resetGameOver={setGameOver}
-        />
-      ) : (
-        <></>
-      )}
     </GameWrapper>
   );
 };

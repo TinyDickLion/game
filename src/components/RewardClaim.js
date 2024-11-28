@@ -4,6 +4,7 @@ import { checkMinimumBalance } from "../business/checkMinimumBalance";
 import {
   calculateDynamicBwomRewardPercent,
   calculateDynamicRearRewardPercent,
+  calculateDynamicCatRewardPercent,
 } from "../business/calculateDynamicRewardPercent";
 import { claimReward } from "../business/claimReward";
 
@@ -28,9 +29,11 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
     tdld: { assetId: 2176744157, minAlgoValue: 25, rewardPercent: 0.13 },
     bwom: { assetId: 2328010867, minBwomLPValue: 6.9, rewardPercent: 6.9 },
     rear: { assetId: 1036120453, minTLPLPValue: 5, rewardPercent: 2 },
+    cat: { assetId: 1691166331, minAlgoValue: 25, rewardPercent: 2 },
   };
   const bwomStartDate = new Date("2024-11-14");
   const rearStartDate = new Date("2024-11-22");
+  const catStartDate = new Date("2024-11-28");
 
   // Set supported tokens and default reward info on mount
   useEffect(() => {
@@ -44,6 +47,8 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
       updateDynamicBwomReward();
     } else if (selectedToken === "rear") {
       updateDynamicRearReward();
+    } else if (selectedToken === "cat") {
+      updateDynamicCatReward();
     } else {
       setRewardInfo(tokenDetails[selectedToken]);
     }
@@ -75,6 +80,15 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
       ...tokenDetails.rear,
       rewardPercent: calculateDynamicRearRewardPercent(
         rearStartDate,
+        tokenDetails
+      ),
+    });
+  };
+  const updateDynamicCatReward = () => {
+    setRewardInfo({
+      ...tokenDetails.cat,
+      rewardPercent: calculateDynamicCatRewardPercent(
+        catStartDate,
         tokenDetails
       ),
     });
