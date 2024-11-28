@@ -93,6 +93,40 @@
   transform: scale(1.01);
 }
 
+
+
+
+/* Scrollable container */
+.scrollContainer {
+  max-height: 60vh;
+  /* Adjust height as needed */
+  overflow-y: auto;
+  width: 50%;
+  margin-top: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Add a scrollbar style for better visibility (optional) */
+.scrollContainer::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+
+
+
+
+
 /* Media Queries */
 @media (max-width: 768px) {
   .title {

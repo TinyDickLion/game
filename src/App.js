@@ -9,7 +9,6 @@ import Leaderboard from "./components/Leaderboard";
 import GameDescription from "./components/GameDescription";
 import TriviaContainer from "./components/TriviaContainer";
 import PeraWalletTutorial from "./components/PeraWalletTutorial";
-import WhitePaper from "./components/WhitePaper";
 import * as THREE from "three";
 import TurnGameStart from "./components/TurnGameStart";
 import TicTacToe from "./components/TicTacToe";
@@ -88,7 +87,7 @@ const App = () => {
         <Route path="/duel-arena" element={<TurnGameStart />} />
         <Route path="/tic-tac-toe" element={<TicTacToe />} />
         <Route path="/rewards-game-guide" element={<GameDescription />} />
-        {/* <Route path="/leaderboard" element={<Leaderboard />} /> */}
+        <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/learn-pera-wallet" element={<PeraWalletTutorial />} />
       </Routes>
     </Router>

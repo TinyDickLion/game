@@ -13,11 +13,11 @@ const Leaderboard = () => {
     const fetchLeaderboard = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/leaderboard`);
-        const data = response.data;
+        const { leaderboard: data } = response.data;
 
         // Assign ranks based on sorted scores
         const rankedData = data
-          .sort((a, b) => b.score - a.score)
+          .sort((a, b) => b.points - a.points)
           .map((entry, index) => ({
             ...entry,
             rank: index + 1,
@@ -34,12 +34,11 @@ const Leaderboard = () => {
     fetchLeaderboard();
   }, []);
 
-  // Add line breaks after every 10 characters
-  const formatPlayerName = (name) => {
-    if (name.length > 10) {
-      return name.match(/.{1,10}/g).join("\n"); // Add a break after every 10 characters
+  const formatPlayerAddress = (address) => {
+    if (address?.length > 10) {
+      return `${address.slice(0, 6)}...${address.slice(-4)}`;
     }
-    return name;
+    return address;
   };
 
   if (loading) {
@@ -52,27 +51,29 @@ const Leaderboard = () => {
 
   return (
     <div className={LeaderboardStyles.container}>
-      <h1 className={LeaderboardStyles.title}>Weekly Leaders (Coming Soon!)</h1>
-      <table className={LeaderboardStyles.table}>
-        <thead>
-          <tr className={LeaderboardStyles.tableHeader}>
-            <th>Rank</th>
-            <th>Player</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leaderboard.map((player) => (
-            <tr key={player.rank} className={LeaderboardStyles.tableRow}>
-              <td>{player.rank}</td>
-              <td className={LeaderboardStyles.playerName}>
-                {formatPlayerName(player.name)}
-              </td>
-              <td>{player.score}</td>
+      <h1 className={LeaderboardStyles.title}>Weekly Leaders</h1>
+      <div className={LeaderboardStyles.scrollContainer}>
+        <table className={LeaderboardStyles.table}>
+          <thead>
+            <tr className={LeaderboardStyles.tableHeader}>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>Score</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {leaderboard.map((player) => (
+              <tr key={player.walletAddress} className={LeaderboardStyles.tableRow}>
+                <td>{player.rank}</td>
+                <td className={LeaderboardStyles.playerName}>
+                  {formatPlayerAddress(player.walletAddress)}
+                </td>
+                <td>{player.points}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
