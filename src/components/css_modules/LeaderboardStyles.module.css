@@ -137,6 +137,10 @@
     width: 90%;
     font-size: 1rem;
   }
+
+  .scrollContainer {
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -147,5 +151,9 @@
   .table {
     width: 100%;
     font-size: 0.9rem;
+  }
+
+  .scrollContainer {
+    width: 100%;
   }
 }
