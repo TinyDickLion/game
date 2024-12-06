@@ -121,7 +121,7 @@ const NavBar = () => {
             Duel Arena
           </NavLink>
         </li>
-        {/* <li className={NavBarStyles.navItem}>
+        <li className={NavBarStyles.navItem}>
           <NavLink
             to="/leaderboard"
             onClick={closeMenu}
@@ -131,7 +131,7 @@ const NavBar = () => {
           >
             Leaderboard
           </NavLink>
-        </li> */}
+        </li>
         <li className={NavBarStyles.navItem}>
           <NavLink
             to="/learn-pera-wallet"
