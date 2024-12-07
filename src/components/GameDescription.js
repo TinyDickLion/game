@@ -36,6 +36,13 @@ const GameDescription = () => {
         "Maintain a minimum of 25 ALGO worth of $CAT to earn daily rewards in $CAT."
       ],
     },
+    marcus: {
+      name: "$MARCUS",
+      requirements: [
+        "Hold $MARCUS in your wallet for at least 16 hours without any recent incoming $MARCUS token transfers.",
+        "Maintain a minimum of 25 ALGO worth of $MARCUS to earn daily rewards in $MARCUS."
+      ],
+    },
   };
 
   const handleTokenChange = (e) => {
