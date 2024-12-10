@@ -28,12 +28,12 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
 
   const tokenDetails = {
     tdld: { assetId: 2176744157, minAlgoValue: 25, rewardPercent: 0.13 },
-    bwom: { assetId: 2328010867, minBwomLPValue: 6.9, rewardPercent: 6.9 },
+    bwom: { assetId: 2328010867, minBwomLPValue: 6.9, rewardPercent: 0.018 },
     rear: { assetId: 1036120453, minTLPLPValue: 5, rewardPercent: 2 },
     cat: { assetId: 1691166331, minAlgoValue: 25, rewardPercent: 2 },
     marcus: { assetId: 2466866698, minAlgoValue: 25, rewardPercent: 2 },
   };
-  const bwomStartDate = new Date("2024-11-14");
+  // const bwomStartDate = new Date("2024-11-14");
   const rearStartDate = new Date("2024-11-22");
   const catStartDate = new Date("2024-11-28");
   const marcusStartDate = new Date("2024-12-06");
@@ -46,9 +46,10 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
 
   // Update reward info for BWOM token dynamically
   useEffect(() => {
-    if (selectedToken === "bwom") {
-      updateDynamicBwomReward();
-    } else if (selectedToken === "rear") {
+    // if (selectedToken === "bwom") {
+    //   updateDynamicBwomReward();
+    // } else
+    if (selectedToken === "rear") {
       updateDynamicRearReward();
     } else if (selectedToken === "cat") {
       updateDynamicCatReward();
@@ -70,15 +71,15 @@ const RewardClaim = ({ scoreCheck, score, gameName, resetGame }) => {
     return () => clearTimeout(timeout);
   }, [scoreCheck, walletAddress]);
 
-  const updateDynamicBwomReward = () => {
-    setRewardInfo({
-      ...tokenDetails.bwom,
-      rewardPercent: calculateDynamicBwomRewardPercent(
-        bwomStartDate,
-        tokenDetails
-      ),
-    });
-  };
+  // const updateDynamicBwomReward = () => {
+  //   setRewardInfo({
+  //     ...tokenDetails.bwom,
+  //     rewardPercent: calculateDynamicBwomRewardPercent(
+  //       bwomStartDate,
+  //       tokenDetails
+  //     ),
+  //   });
+  // };
 
   const updateDynamicRearReward = () => {
     setRewardInfo({
