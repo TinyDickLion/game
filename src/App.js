@@ -87,7 +87,7 @@ const App = () => {
         <Route path="/duel-arena" element={<TurnGameStart />} />
         <Route path="/tic-tac-toe" element={<TicTacToe />} />
         <Route path="/rewards-game-guide" element={<GameDescription />} />
-        {/* <Route path="/leaderboard" element={<Leaderboard />} /> */}
+        <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/learn-pera-wallet" element={<PeraWalletTutorial />} />
       </Routes>
     </Router>
