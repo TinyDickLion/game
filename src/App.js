@@ -41,13 +41,13 @@ const App = () => {
     window.addEventListener("resize", handleResize);
 
     const particleGeometry = new THREE.SphereGeometry(0.05, 16, 16);
-    const particleMaterial = new THREE.MeshBasicMaterial({ color: 0x8844ee });
+    const particleMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFFFF });
     const particles = Array.from({ length: 200 }, () => {
       const particle = new THREE.Mesh(particleGeometry, particleMaterial);
       particle.position.set(
-        (Math.random() - 0.5) * 16,
-        -4 + Math.random() * 4,
-        (Math.random() - 0.5) * 16
+        (Math.random() - 0.5) * 16, // Random X position
+        4 - Math.random() * 8, // Start at random height
+        (Math.random() - 0.5) * 16 // Random Z position
       );
       scene.add(particle);
       return particle;
@@ -56,10 +56,10 @@ const App = () => {
     const animate = () => {
       requestAnimationFrame(animate);
       particles.forEach((p) => {
-        p.position.y += 0.002;
+        p.position.y -= 0.01; // Move particles downward
         p.rotation.x += 0.005;
         p.rotation.y += 0.005;
-        if (p.position.y > 4) p.position.y = -4;
+        if (p.position.y < -4) p.position.y = 4; // Reset particle to top
       });
       renderer.render(scene, camera);
     };
